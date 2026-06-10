@@ -1,1 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+@theme {
+	/* This automatically maps 'font-sans' to Inter across your app */
+	--font-sans: "Inter", sans-serif;
+}

@@ -1,12 +1,16 @@
 import './App.css'
+import Navbar from './Components/Navbar'
 
 function App() {
 
 	return (
 		<>
-			<div className='flex justify-center items-center'>
-				<h1 >Hello World</h1>
-			</div>
+			<div className='bg-slate-900 text-slate-100 min-h-screen w-full'>
+
+				<Navbar />
+
+
+			</div >
 
 		</>
 	)
