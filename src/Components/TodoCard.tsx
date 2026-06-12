@@ -1,21 +1,17 @@
 import { useState } from "react";
 import Todo from "./Todo"
 import ProgressWheel from "./ProgressWheel";
+import type { TodoItem } from "./TodoSection";
 
-interface TodoItem {
-	id: string;
-	name: string;
-	completed: boolean;
+
+interface TodoCardProps {
+	header: string;
+	subheader: string;
+	initialTodos: TodoItem[];
 }
 
-const initialTodos: TodoItem[] = [
-	{ id: crypto.randomUUID(), name: "Complete a Leetcode", completed: false },
-	{ id: crypto.randomUUID(), name: "Apply for Jobs", completed: false },
-	{ id: crypto.randomUUID(), name: "Train Chess", completed: false },
 
-]
-
-function TodoCard() {
+function TodoCard({ header, subheader, initialTodos }: TodoCardProps) {
 
 	const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
 
@@ -37,8 +33,8 @@ function TodoCard() {
 			<header className="flex pb-5 justify-between">
 
 				<div className="flex flex-col">
-					<h2 className="text-slate-100 font-sans font-bold text-2xl pb-1">Dailies</h2>
-					<p className="text-slate-300 text-lg">Refreshes Every Day</p>
+					<h2 className="text-slate-100 font-sans font-bold text-2xl pb-1">{header}</h2>
+					<p className="text-slate-300 text-lg">{subheader}</p>
 				</div>
 
 				<ProgressWheel completedCount={completedCount} totalCount={totalCount} />
