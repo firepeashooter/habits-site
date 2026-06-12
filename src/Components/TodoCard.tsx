@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Todo from "./Todo"
 
 interface TodoItem {
@@ -6,7 +7,7 @@ interface TodoItem {
 	completed: boolean;
 }
 
-const todos: TodoItem[] = [
+const initialTodos: TodoItem[] = [
 	{ id: crypto.randomUUID(), name: "Complete a Leetcode", completed: false },
 	{ id: crypto.randomUUID(), name: "Apply for Jobs", completed: false },
 	{ id: crypto.randomUUID(), name: "Train Chess", completed: false },
@@ -14,6 +15,18 @@ const todos: TodoItem[] = [
 ]
 
 function TodoCard() {
+
+	// 1. Initialize state with our initial todos
+	const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
+
+	// 2. The function to toggle completed status based on ID
+	const toggleTodo = (id: string) => {
+		setTodos(prevTodos =>
+			prevTodos.map(todo =>
+				todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
+			)
+		);
+	};
 
 	return (
 
@@ -33,6 +46,7 @@ function TodoCard() {
 							key={todo.id}
 							name={todo.name}
 							completed={todo.completed}
+							onToggle={() => toggleTodo(todo.id)}
 
 						/>
 
