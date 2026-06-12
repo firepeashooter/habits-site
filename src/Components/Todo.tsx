@@ -1,12 +1,16 @@
 
+interface TodoProps {
+	name: string;
+	completed: boolean;
+}
 
-function Todo() {
+function Todo({ name, completed }: TodoProps) {
 
 	return (
 
 
-		<div className=" border border-slate-400 bg-slate-700 rounded-lg p-2 w-full">
-			<h3>Do a Leetcode</h3>
+		<div className=" border border-slate-400 bg-slate-700 rounded-lg p-3 w-full">
+			<h3 className="text-lg">{name}</h3>
 
 		</div>
 
