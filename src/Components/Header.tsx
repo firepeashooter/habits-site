@@ -1,6 +1,6 @@
 import Raypfp from '../assets/thumb-1920-376165.png'
 
-function Navbar() {
+function Header() {
 
 	return (
 
@@ -22,4 +22,4 @@ function Navbar() {
 	)
 }
 
-export default Navbar
+export default Header

@@ -1,6 +1,7 @@
 import './App.css'
-import Navbar from './Components/Navbar'
+import Header from './Components/Header.tsx'
 import TodoSection from './Components/TodoSection'
+import MobileNavBar from './Components/MobileNavBar.tsx'
 
 
 function App() {
@@ -9,8 +10,12 @@ function App() {
 		<>
 			<div className='bg-slate-900 text-slate-100 min-h-screen w-full'>
 
-				<Navbar />
-				<TodoSection />
+				<main className='w-full px-4 pt-4 pb-24'>
+					<Header />
+					<TodoSection />
+				</main>
+
+				<MobileNavBar />
 
 
 			</div >
