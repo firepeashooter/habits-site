@@ -4,7 +4,7 @@ function Navbar() {
 
 	return (
 
-		<nav className='flex justify-between items-center p-3 text-slate-100 w-full'>
+		<nav className='flex justify-between items-center p-4 text-slate-100 w-full'>
 			<h1 className='font-sans font-bold text-lg'>Wednesday, June 10th, 2026 </h1>
 
 			<div className='w-13 h-13 rounded-full overflow-hidden bg-amber-700'>
