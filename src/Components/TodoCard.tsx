@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Todo from "./Todo"
+import ProgressWheel from "./ProgressWheel";
 
 interface TodoItem {
 	id: string;
@@ -16,10 +17,11 @@ const initialTodos: TodoItem[] = [
 
 function TodoCard() {
 
-	// 1. Initialize state with our initial todos
 	const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
 
-	// 2. The function to toggle completed status based on ID
+	const totalCount = todos.length;
+	const completedCount = todos.filter(todo => todo.completed).length;
+
 	const toggleTodo = (id: string) => {
 		setTodos(prevTodos =>
 			prevTodos.map(todo =>
@@ -32,11 +34,14 @@ function TodoCard() {
 
 
 		<div className="flex flex-col bg-slate-700 rounded-2xl w-11/12 p-5 border border-slate-600/40 shadow-lg">
-			<header className="flex flex-col pb-5">
+			<header className="flex pb-5 justify-between">
 
-				<h2 className="text-slate-100 font-sans font-bold text-2xl pb-1">Dailies</h2>
-				<p className="text-slate-300 text-lg">Refreshes Every Day</p>
+				<div className="flex flex-col">
+					<h2 className="text-slate-100 font-sans font-bold text-2xl pb-1">Dailies</h2>
+					<p className="text-slate-300 text-lg">Refreshes Every Day</p>
+				</div>
 
+				<ProgressWheel completedCount={completedCount} totalCount={totalCount} />
 			</header>
 
 			<div className="flex flex-col items-center gap-3">
