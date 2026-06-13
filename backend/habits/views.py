@@ -5,6 +5,7 @@ from .models import MasterTask, TaskInstance
 from .serializers import MasterTaskSerializer, TaskInstanceSerializer
 # Create your views here.
 
+
 #I want a view to create a master task for when user adds a task to weekly
 class MasterTaskCreateView(generics.CreateAPIView):
 
