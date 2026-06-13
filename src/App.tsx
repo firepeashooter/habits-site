@@ -3,6 +3,7 @@ import Header from './Components/Header.tsx'
 import TodoSection from './Components/TodoSection'
 import MobileNavBar from './Components/MobileNavBar.tsx'
 import { useState } from 'react'
+import PlanningSection from './Components/Planningsection.tsx'
 
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
 								<TodoSection />
 							</section>
 							<section className='w-1/2 shrink-0'>
-								<TodoSection />
+								<PlanningSection />
 							</section>
 						</div>
 					</div>

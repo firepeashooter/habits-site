@@ -1,19 +1,19 @@
 import { useState } from "react";
 import Todo from "./Todo"
 import ProgressWheel from "./ProgressWheel";
-import type { TodoItem } from "./TodoSection";
+import type { TodoItemType } from "./TodoSection";
 
 
 interface TodoCardProps {
 	header: string;
-	subheader: string;
-	initialTodos: TodoItem[];
+	subheader?: string;
+	initialTodos?: TodoItemType[];
 }
 
 
 function TodoCard({ header, subheader, initialTodos }: TodoCardProps) {
 
-	const [todos, setTodos] = useState<TodoItem[]>(initialTodos);
+	const [todos, setTodos] = useState<TodoItemType[]>(initialTodos);
 
 	const totalCount = todos.length;
 	const completedCount = todos.filter(todo => todo.completed).length;

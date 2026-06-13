@@ -1,26 +1,11 @@
+import type { TodoItemType } from "./TodoSection"
+import type { TodoCardType } from "./TodoSection"
 import TodoCard from "./TodoCard"
 
-export interface TodoItemType {
-	id: string;
-	name: string;
-	completed: boolean;
-}
-
-export interface TodoCardType {
-	id: string;
-	header: string;
-	subheader?: string;
-	initialTodos: TodoItemType[];
-}
-
-const dailies: TodoItemType[] = [
-	{ id: crypto.randomUUID(), name: "Complete a Leetcode", completed: false },
-	{ id: crypto.randomUUID(), name: "Apply for Jobs", completed: false },
-	{ id: crypto.randomUUID(), name: "Train Chess", completed: false },
+const tomorrow: TodoItemType[] = [
 
 ]
-
-const initialTodos: TodoItemType[] = [
+const weekly: TodoItemType[] = [
 	{ id: crypto.randomUUID(), name: "Tidy Appartment", completed: false },
 	{ id: crypto.randomUUID(), name: "Do Laundry", completed: false },
 	{ id: crypto.randomUUID(), name: "Finish UI for Habits Site", completed: false },
@@ -30,18 +15,16 @@ const initialTodos: TodoItemType[] = [
 ]
 
 const todoCards: TodoCardType[] = [
-	{ id: crypto.randomUUID(), header: "Dailes", subheader: "Refreshes Everyday", initialTodos: dailies },
+	{ id: crypto.randomUUID(), header: "Tomorrow", subheader: "Plan Tomorrow Today", initialTodos: tomorrow },
 
-	{ id: crypto.randomUUID(), header: "Todo", subheader: "What are you doing today", initialTodos: initialTodos }
+	{ id: crypto.randomUUID(), header: "Weekly/Overall", initialTodos: weekly }
 
 ]
-
-
-function TodoSection() {
-
+function PlanningSection() {
 	return (
 
-		<div className="flex flex-col items-center gap-5 pb-10">
+		< div className="flex flex-col items-center gap-5 pb-10" >
+
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning Benjamin!</h1>
 			{
 				todoCards.map((card) =>
@@ -58,12 +41,9 @@ function TodoSection() {
 			}
 
 
-		</div>
-
-
-
+		</div >
 
 	)
 }
 
-export default TodoSection
+export default PlanningSection
