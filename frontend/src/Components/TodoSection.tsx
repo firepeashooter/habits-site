@@ -12,6 +12,7 @@ export interface TodoCardType {
 	header: string;
 	subheader?: string;
 	initialTodos: TodoItemType[];
+	editable?: boolean;
 }
 
 const dailies: TodoItemType[] = [
@@ -34,7 +35,7 @@ const currentTodos: TodoItemType[] = [
 const todoCards: TodoCardType[] = [
 	{ id: crypto.randomUUID(), header: "Dailes", subheader: "Refreshes Everyday", initialTodos: dailies },
 
-	{ id: crypto.randomUUID(), header: "Todo", subheader: "What are you doing today", initialTodos: currentTodos }
+	{ id: crypto.randomUUID(), header: "Todo", subheader: "What are you doing today", initialTodos: currentTodos, editable: true }
 
 ]
 
@@ -53,6 +54,7 @@ function TodoSection() {
 						header={card.header}
 						subheader={card.subheader}
 						initialTodos={card.initialTodos}
+						editable={card.editable}
 
 					/>
 				)

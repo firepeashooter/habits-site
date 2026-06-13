@@ -18,9 +18,9 @@ const weekly: TodoItemType[] = [
 ]
 
 const todoCards: TodoCardType[] = [
-	{ id: crypto.randomUUID(), header: "Tomorrow", subheader: "Plan Tomorrow Today", initialTodos: tomorrow },
+	{ id: crypto.randomUUID(), header: "Tomorrow", subheader: "Plan Tomorrow Today", initialTodos: tomorrow, editable: true },
 
-	{ id: crypto.randomUUID(), header: "Weekly/Overall", initialTodos: weekly }
+	{ id: crypto.randomUUID(), header: "Weekly/Overall", initialTodos: weekly, editable: true }
 
 ]
 function PlanningSection() {
@@ -37,6 +37,7 @@ function PlanningSection() {
 						header={card.header}
 						subheader={card.subheader}
 						initialTodos={card.initialTodos}
+						editable={card.editable}
 
 					/>
 				)

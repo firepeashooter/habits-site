@@ -9,10 +9,11 @@ interface TodoCardProps {
 	header: string;
 	subheader?: string;
 	initialTodos?: TodoItemType[];
+	editable?: boolean;
 }
 
 
-function TodoCard({ header, subheader, initialTodos }: TodoCardProps) {
+function TodoCard({ header, subheader, initialTodos, editable = false }: TodoCardProps) {
 
 	const [todos, setTodos] = useState<TodoItemType[]>(initialTodos);
 
@@ -54,7 +55,8 @@ function TodoCard({ header, subheader, initialTodos }: TodoCardProps) {
 
 					)
 				}
-				<AddTodoButton />
+
+				{editable && <AddTodoButton />}
 
 			</div>
 
