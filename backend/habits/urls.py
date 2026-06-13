@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import DailyHabitsListView
+from .views import DailyHabitsListView, MasterTaskCreateView, TaskInstanceCreateView, AllInstanceListView
 
 urlpatterns = [
     # This maps 'active-dailies/' to your class-based view.
     # .as_view() is mandatory for Class-Based Views!
     path('active-dailies/', DailyHabitsListView.as_view(), name='daily-habits-today'),
+    path('create-todo/', MasterTaskCreateView.as_view(), name='create-todo'),
+    path('create-instance/', TaskInstanceCreateView.as_view(), name='create-instance'),
+    path('view-all/', AllInstanceListView.as_view(), name='view-all'),
 ]

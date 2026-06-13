@@ -1,9 +1,49 @@
 from django.shortcuts import render
 from datetime import date
 from rest_framework import generics
-from .models import TaskInstance
-from .serializers import TaskInstanceSerializer
+from .models import MasterTask, TaskInstance
+from .serializers import MasterTaskSerializer, TaskInstanceSerializer
 # Create your views here.
+
+#I want a view to create a master task for when user adds a task to weekly
+class MasterTaskCreateView(generics.CreateAPIView):
+
+    #Tells the CreateAPIView where to save the new thing in the database and which serializer to validate it
+    queryset = MasterTask.objects.all()
+    serializer_class = MasterTaskSerializer
+
+    #This is temporary since we don't have auth yet
+    def perform_create(self, serializer):
+        # Intercept the automatic saving process and inject the user assignment!
+        from django.contrib.auth.models import User
+        user_profile = User.objects.get(username='benja')
+        
+        serializer.save(user=user_profile)
+
+
+#I want a view to create an instance given a day for either when the user adds a task
+#to the todays todo card or the tommorrows todo card
+class TaskInstanceCreateView(generics.CreateAPIView):
+
+    queryset = TaskInstance.objects.all()
+    serializer_class = TaskInstanceSerializer
+
+
+    #This is temporary since we don't have auth yet
+    def perform_create(self, serializer):
+        # Intercept the automatic saving process and inject the user assignment!
+        from django.contrib.auth.models import User
+        user_profile = User.objects.get(username='benja')
+        
+        serializer.save(user=user_profile)
+
+class AllInstanceListView(generics.ListAPIView):
+    """
+    Returns all task instances
+    """
+
+    serializer_class = TaskInstanceSerializer
+    queryset = TaskInstance.objects.all()
 
 class DailyHabitsListView(generics.ListAPIView):
         """
