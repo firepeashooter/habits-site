@@ -13,6 +13,7 @@ export interface TodoCardType {
 	initialTodos: TodoItemType[];
 }
 
+{/* Queried instances*/ }
 const dailies: TodoItemType[] = [
 	{ id: crypto.randomUUID(), name: "Complete a Leetcode", completed: false },
 	{ id: crypto.randomUUID(), name: "Apply for Jobs", completed: false },
@@ -20,7 +21,8 @@ const dailies: TodoItemType[] = [
 
 ]
 
-const initialTodos: TodoItemType[] = [
+{/* Queried instances*/ }
+const currentTodos: TodoItemType[] = [
 	{ id: crypto.randomUUID(), name: "Tidy Appartment", completed: false },
 	{ id: crypto.randomUUID(), name: "Do Laundry", completed: false },
 	{ id: crypto.randomUUID(), name: "Finish UI for Habits Site", completed: false },
@@ -32,7 +34,7 @@ const initialTodos: TodoItemType[] = [
 const todoCards: TodoCardType[] = [
 	{ id: crypto.randomUUID(), header: "Dailes", subheader: "Refreshes Everyday", initialTodos: dailies },
 
-	{ id: crypto.randomUUID(), header: "Todo", subheader: "What are you doing today", initialTodos: initialTodos }
+	{ id: crypto.randomUUID(), header: "Todo", subheader: "What are you doing today", initialTodos: currentTodos }
 
 ]
 
