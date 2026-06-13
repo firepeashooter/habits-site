@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Todo from "./Todo"
 import ProgressWheel from "./ProgressWheel";
+import AddTodoButton from "./AddTodoButton";
 import type { TodoItemType } from "./TodoSection";
 
 
@@ -53,6 +54,7 @@ function TodoCard({ header, subheader, initialTodos }: TodoCardProps) {
 
 					)
 				}
+				<AddTodoButton />
 
 			</div>
 
