@@ -2,11 +2,12 @@ import type { TodoItemType } from "./TodoSection"
 import type { TodoCardType } from "./TodoSection"
 import TodoCard from "./TodoCard"
 
+{/* Just grab todos with tomorrows date from the backend*/ }
 const tomorrow: TodoItemType[] = [
 
 ]
 
-{/* Queried master todos*/ }
+{/* Just grab weekly items from the todo*/ }
 const weekly: TodoItemType[] = [
 	{ id: crypto.randomUUID(), name: "Tidy Appartment", completed: false },
 	{ id: crypto.randomUUID(), name: "Do Laundry", completed: false },
@@ -16,7 +17,6 @@ const weekly: TodoItemType[] = [
 	{ id: crypto.randomUUID(), name: "Do Laundry", completed: false },
 ]
 
-{/* Queried instances*/ }
 const todoCards: TodoCardType[] = [
 	{ id: crypto.randomUUID(), header: "Tomorrow", subheader: "Plan Tomorrow Today", initialTodos: tomorrow },
 

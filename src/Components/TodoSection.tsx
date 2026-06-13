@@ -2,6 +2,7 @@ import TodoCard from "./TodoCard"
 
 export interface TodoItemType {
 	id: string;
+	todoID: string;
 	name: string;
 	completed: boolean;
 }
@@ -13,22 +14,21 @@ export interface TodoCardType {
 	initialTodos: TodoItemType[];
 }
 
-{/* Queried instances*/ }
 const dailies: TodoItemType[] = [
-	{ id: crypto.randomUUID(), name: "Complete a Leetcode", completed: false },
-	{ id: crypto.randomUUID(), name: "Apply for Jobs", completed: false },
-	{ id: crypto.randomUUID(), name: "Train Chess", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Complete a Leetcode", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Apply for Jobs", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Train Chess", completed: false },
 
 ]
 
-{/* Queried instances*/ }
+{/* Simply request this array from the backend and give it a date. It will just grab all todos with that date*/ }
 const currentTodos: TodoItemType[] = [
-	{ id: crypto.randomUUID(), name: "Tidy Appartment", completed: false },
-	{ id: crypto.randomUUID(), name: "Do Laundry", completed: false },
-	{ id: crypto.randomUUID(), name: "Finish UI for Habits Site", completed: false },
-	{ id: crypto.randomUUID(), name: "Update Minecraft Server Scripts", completed: false },
-	{ id: crypto.randomUUID(), name: "Update Minecraft Server Scripts again but longer", completed: false },
-	{ id: crypto.randomUUID(), name: "Do Laundry", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Tidy Appartment", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Do Laundry", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Finish UI for Habits Site", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Update Minecraft Server Scripts", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Update Minecraft Server Scripts again but longer", completed: false },
+	{ id: crypto.randomUUID(), todoID: "master-3", name: "Do Laundry", completed: false },
 ]
 
 const todoCards: TodoCardType[] = [
