@@ -50,6 +50,12 @@ function TodoSection() {
 		setCurTodos(updatedCurTodos)
 	}
 
+	function addDailyTodoList(text: string) {
+		//Add our new todo with our text
+		const updatedDailyTodos = [...dailyTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
+		setDailyTodos(updatedDailyTodos)
+	}
+
 	function toggleTodo(id: string) {
 
 		setCurTodos(prevTodos =>
