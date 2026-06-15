@@ -41,7 +41,6 @@ function PlanningSection() {
 
 
 	function toggleTodo(id: string, type: string) {
-		console.log(type)
 
 		if (type === 'weekly') {
 
