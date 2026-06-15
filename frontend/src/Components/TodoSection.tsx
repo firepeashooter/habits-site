@@ -16,7 +16,7 @@ export interface TodoCardType {
 	editable?: boolean;
 	type: string;
 	addTodo: (text: string, type: string) => void;
-	toggleTodo: (id: string) => void;
+	toggleTodo: (id: string, type: string) => void;
 }
 
 const dailies: TodoItemType[] = [
@@ -63,22 +63,24 @@ function TodoSection() {
 	}
 
 
-	function toggleTodo(id: string) {
+	function toggleTodo(id: string, type: string) {
 
-		setCurTodos(prevTodos =>
-			prevTodos.map(todo =>
-				todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
-			)
-		);
-	}
+		if (type === 'current') {
 
-	function toggleDailyTodo(id: string) {
+			setCurTodos(prevTodos =>
+				prevTodos.map(todo =>
+					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
+				)
+			);
+		} else if (type === 'daily') {
 
-		setDailyTodos(prevTodos =>
-			prevTodos.map(todo =>
-				todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
-			)
-		);
+			setDailyTodos(prevTodos =>
+				prevTodos.map(todo =>
+					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
+				)
+			);
+		}
+
 	}
 
 	return (
@@ -86,7 +88,7 @@ function TodoSection() {
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning Benjamin!</h1>
 
-			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleDailyTodo} type="daily" />
+			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" />
 			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" />
 
 

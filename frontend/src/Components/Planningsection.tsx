@@ -22,13 +22,14 @@ function PlanningSection() {
 	const [weeklyTodos, setWeeklyTodos] = useState(weekly)
 	const [tomorrowTodos, setTomorrowTodos] = useState(tomorrow)
 
-	function addTodoList(text: string, type: stirng) {
+	function addTodoList(text: string, type: string) {
 
 		if (type === 'weekly') {
 
 			//Add our new todo with our text
 			const updatedWeeklyTodos = [...weeklyTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
 			setWeeklyTodos(updatedWeeklyTodos)
+
 		} else if (type === 'tomorrow') {
 
 			//Add our new todo with our text
@@ -39,24 +40,27 @@ function PlanningSection() {
 	}
 
 
-	function toggleWeeklyTodo(id: string) {
+	function toggleTodo(id: string, type: string) {
+		console.log(type)
 
-		setWeeklyTodos(prevTodos =>
-			prevTodos.map(todo =>
-				todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
-			)
-		);
+		if (type === 'weekly') {
+
+			setWeeklyTodos(prevTodos =>
+				prevTodos.map(todo =>
+					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
+				)
+			);
+		} else if (type === 'tomorrow') {
+
+			setTomorrowTodos(prevTodos =>
+				prevTodos.map(todo =>
+					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
+				)
+			);
+		}
+
 	}
 
-
-	function toggleTomorrowTodo(id: string) {
-
-		setTomorrowTodos(prevTodos =>
-			prevTodos.map(todo =>
-				todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
-			)
-		);
-	}
 	return (
 
 		< div className="flex flex-col items-center gap-5 pb-10" >
@@ -64,9 +68,9 @@ function PlanningSection() {
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning Benjamin!</h1>
 
 
-			<TodoCard header="Tomorrow" subheader="Plan Tomorrow Today" type="tomorrow" curTodos={tomorrowTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTomorrowTodo} />
+			<TodoCard header="Tomorrow" subheader="Plan Tomorrow Today" type="tomorrow" curTodos={tomorrowTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} />
 
-			<TodoCard header="Weekly/Overall" type="weekly" curTodos={weeklyTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleWeeklyTodo} />
+			<TodoCard header="Weekly/Overall" type="weekly" curTodos={weeklyTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} />
 
 		</div >
 
