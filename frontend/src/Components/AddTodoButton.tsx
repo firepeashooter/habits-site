@@ -3,11 +3,13 @@ import { PlusIcon } from "./PlusIcon"
 
 
 interface AddTodoButtonType {
-	addTodo: (text: string) => void;
+	type: string;
+	addTodo: (text: string, type: string) => void;
+
 }
 
 
-function AddTodoButton({ addTodo }: AddTodoButtonType) {
+function AddTodoButton({ type, addTodo }: AddTodoButtonType) {
 
 	const [isEditing, setIsEditing] = useState(false);
 	const [text, setText] = useState('');
@@ -29,7 +31,7 @@ function AddTodoButton({ addTodo }: AddTodoButtonType) {
 						if (e.key === 'Enter') {
 
 							//We need to send text data back up so we call the callback function where our state is handeled
-							addTodo(text)
+							addTodo(text, type)
 							setText('');
 							setIsEditing(false);
 						} else if (e.key === 'Escape') {

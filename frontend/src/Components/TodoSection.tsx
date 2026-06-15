@@ -15,7 +15,7 @@ export interface TodoCardType {
 	curTodos: TodoItemType[];
 	editable?: boolean;
 	type: string;
-	addTodo: (text: string) => void;
+	addTodo: (text: string, type: string) => void;
 	toggleTodo: (id: string) => void;
 }
 
@@ -45,17 +45,23 @@ function TodoSection() {
 	const [dailyTodos, setDailyTodos] = useState(dailies)
 
 
-	function addCurTodoList(text: string) {
-		//Add our new todo with our text
-		const updatedCurTodos = [...curTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
-		setCurTodos(updatedCurTodos)
+	function addTodoList(text: string, type: string) {
+
+		if (type === 'current') {
+
+			//Add our new todo with our text
+			const updatedCurTodos = [...curTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
+			setCurTodos(updatedCurTodos)
+
+		} else if (type === 'daily') {
+
+			//Add our new todo with our text
+			const updatedDailyTodos = [...dailyTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
+			setDailyTodos(updatedDailyTodos)
+		}
+
 	}
 
-	function addDailyTodoList(text: string) {
-		//Add our new todo with our text
-		const updatedDailyTodos = [...dailyTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
-		setDailyTodos(updatedDailyTodos)
-	}
 
 	function toggleTodo(id: string) {
 
@@ -80,8 +86,8 @@ function TodoSection() {
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning Benjamin!</h1>
 
-			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addCurTodoList} toggleTodo={toggleDailyTodo} type="daily" />
-			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addCurTodoList} toggleTodo={toggleTodo} type="current" />
+			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleDailyTodo} type="daily" />
+			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" />
 
 
 		</div>

@@ -10,7 +10,7 @@ interface TodoCardProps {
 	type: string;
 	curTodos: TodoItemType[];
 	editable?: boolean;
-	addTodo: (text: string) => void;
+	addTodo: (text: string, type: string) => void;
 	toggleTodo: (id: string) => void;
 }
 
@@ -52,7 +52,7 @@ function TodoCard({ header, subheader, curTodos = [], type, editable = false, ad
 					)
 				}
 
-				{editable && <AddTodoButton addTodo={addTodo} />}
+				{editable && <AddTodoButton type={type} addTodo={addTodo} />}
 
 			</div>
 
