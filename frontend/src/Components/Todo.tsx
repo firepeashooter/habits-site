@@ -2,11 +2,12 @@ import Checkbox from "./Checkbox";
 
 interface TodoProps {
 	name: string;
+	type: string;
 	completed: boolean;
 	onToggle: () => void;
 }
 
-function Todo({ name, completed, onToggle }: TodoProps) {
+function Todo({ name, completed, onToggle, type }: TodoProps) {
 
 	return (
 

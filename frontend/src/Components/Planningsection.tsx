@@ -60,9 +60,9 @@ function PlanningSection() {
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning Benjamin!</h1>
 
 
-			<TodoCard header="Tomorrow" subheader="Plan Tomorrow Today" curTodos={tomorrowTodos} editable={true} addTodo={addTomorrowTodoList} toggleTodo={toggleTomorrowTodo} />
+			<TodoCard header="Tomorrow" subheader="Plan Tomorrow Today" type="tomorrow" curTodos={tomorrowTodos} editable={true} addTodo={addTomorrowTodoList} toggleTodo={toggleTomorrowTodo} />
 
-			<TodoCard header="Weekly/Overall" curTodos={weeklyTodos} editable={true} addTodo={addWeeklyTodoList} toggleTodo={toggleWeeklyTodo} />
+			<TodoCard header="Weekly/Overall" type="weekly" curTodos={weeklyTodos} editable={true} addTodo={addWeeklyTodoList} toggleTodo={toggleWeeklyTodo} />
 
 		</div >
 

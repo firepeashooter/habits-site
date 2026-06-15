@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Todo from "./Todo"
 import ProgressWheel from "./ProgressWheel";
 import AddTodoButton from "./AddTodoButton";
@@ -8,6 +7,7 @@ import type { TodoItemType } from "./TodoSection";
 interface TodoCardProps {
 	header: string;
 	subheader?: string;
+	type: string;
 	curTodos: TodoItemType[];
 	editable?: boolean;
 	addTodo: (text: string) => void;
@@ -15,7 +15,7 @@ interface TodoCardProps {
 }
 
 
-function TodoCard({ header, subheader, curTodos = [], editable = false, addTodo, toggleTodo }: TodoCardProps) {
+function TodoCard({ header, subheader, curTodos = [], type, editable = false, addTodo, toggleTodo }: TodoCardProps) {
 
 
 	const totalCount = curTodos.length;
@@ -42,6 +42,7 @@ function TodoCard({ header, subheader, curTodos = [], editable = false, addTodo,
 						<Todo
 							key={todo.id}
 							name={todo.name}
+							type={type}
 							completed={todo.completed}
 							onToggle={() => toggleTodo(todo.id)}
 

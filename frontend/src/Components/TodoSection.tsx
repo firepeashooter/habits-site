@@ -14,6 +14,7 @@ export interface TodoCardType {
 	subheader?: string;
 	curTodos: TodoItemType[];
 	editable?: boolean;
+	type: string;
 	addTodo: (text: string) => void;
 	toggleTodo: (id: string) => void;
 }
@@ -79,8 +80,8 @@ function TodoSection() {
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning Benjamin!</h1>
 
-			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addCurTodoList} toggleTodo={toggleDailyTodo} />
-			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addCurTodoList} toggleTodo={toggleTodo} />
+			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addCurTodoList} toggleTodo={toggleDailyTodo} type="daily" />
+			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addCurTodoList} toggleTodo={toggleTodo} type="current" />
 
 
 		</div>
