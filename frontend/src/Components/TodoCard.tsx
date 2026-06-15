@@ -8,25 +8,19 @@ import type { TodoItemType } from "./TodoSection";
 interface TodoCardProps {
 	header: string;
 	subheader?: string;
-	initialTodos?: TodoItemType[];
+	curTodos: TodoItemType[];
 	editable?: boolean;
+	addTodo: (text: string) => void;
+	toggleTodo: (id: string) => void;
 }
 
 
-function TodoCard({ header, subheader, initialTodos, editable = false }: TodoCardProps) {
+function TodoCard({ header, subheader, curTodos = [], editable = false, addTodo, toggleTodo }: TodoCardProps) {
 
-	const [todos, setTodos] = useState<TodoItemType[]>(initialTodos);
 
-	const totalCount = todos.length;
-	const completedCount = todos.filter(todo => todo.completed).length;
+	const totalCount = curTodos.length;
+	const completedCount = curTodos.filter(todo => todo.completed).length;
 
-	const toggleTodo = (id: string) => {
-		setTodos(prevTodos =>
-			prevTodos.map(todo =>
-				todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
-			)
-		);
-	};
 
 	return (
 
@@ -44,19 +38,20 @@ function TodoCard({ header, subheader, initialTodos, editable = false }: TodoCar
 
 			<div className="flex flex-col items-center gap-3">
 				{
-					todos.map((todo) =>
+					curTodos.map((todo) =>
 						<Todo
 							key={todo.id}
 							name={todo.name}
 							completed={todo.completed}
 							onToggle={() => toggleTodo(todo.id)}
 
+
 						/>
 
 					)
 				}
 
-				{editable && <AddTodoButton />}
+				{editable && <AddTodoButton addTodo={addTodo} />}
 
 			</div>
 
