@@ -40,12 +40,19 @@ class TaskInstanceCreateView(generics.CreateAPIView):
         from django.contrib.auth.models import User
         user_profile = User.objects.get(username='benja')
 
+        #Pop ensures that we only use the name for the lookup but it's not in the creation of the new task
+        todo_name= serializer.validated_data.pop('name')
 
-        #Here we also want to connect it to a mastertodo if there exists one if not we make a new one
-        #I think it's enough to lookup just by name that way we never have any duplicated names in the db for the master tasks
-        #Use djangos get_or_create() method
+        #Create a new task if one doesn't exist other wise grab one with the same name
+        master_task, created = MasterTask.objects.get_or_create(
+                name=todo_name,
+                defaults={
+                    'user': user_profile,
+                    'is_daily': False
+                    }
+                )
         
-        serializer.save(user=user_profile)
+        serializer.save(user=user_profile, todo=master_task)
 
 class AllInstanceListView(generics.ListAPIView):
     """

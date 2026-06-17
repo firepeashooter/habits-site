@@ -17,7 +17,14 @@ class TaskInstanceSerializer(serializers.ModelSerializer):
     # This nests the MasterTask data right inside this serializer's payload
     todo_details = MasterTaskSerializer(source='todo', read_only=True)
 
+    #The database doesn't have a name field in the instance but the incoming todo json should have one
+    name = serializers.CharField(write_only=True)
+
     class Meta:
         model = TaskInstance
         # These are the exact keys that represent a single instance log row
-        fields = ['id', 'todo', 'todo_details', 'date', 'is_completed']
+        fields = ['id', 'todo','name','todo_details', 'date', 'is_completed']
+
+    extra_kwargs = {
+            'todo': {'read_only': True}
+    }
