@@ -27,4 +27,4 @@ class TaskInstanceSerializer(serializers.ModelSerializer):
 
     extra_kwargs = {
             'todo': {'read_only': True}
-    }
+        }

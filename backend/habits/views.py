@@ -66,15 +66,10 @@ class TaskInstanceCreateView(generics.CreateAPIView):
             master_task.is_archived = False
             master_task.save(update_fields['is_archived'])
         
+        #Saves everything inside the serializer (the whole json) we don't have todo (calcualted here) and user 
+        #in our serializer.validated_date() so we have to specify it here
         serializer.save(user=user_profile, todo=master_task)
 
-class AllInstanceListView(generics.ListAPIView):
-    """
-    Returns all task instances
-    """
-
-    serializer_class = TaskInstanceSerializer
-    queryset = TaskInstance.objects.all()
 
 
 #This one should be called by the weekly card to display all tasks
@@ -95,6 +90,17 @@ class ActiveMasterTasksListView(generics.ListAPIView):
             is_daily=False,
             is_archived=False
         )
+
+
+
+
+class AllInstanceListView(generics.ListAPIView):
+    """
+    Returns all task instances
+    """
+
+    serializer_class = TaskInstanceSerializer
+    queryset = TaskInstance.objects.all()
 
 
 class DailyHabitsListView(generics.ListAPIView):
