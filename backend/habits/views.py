@@ -5,10 +5,24 @@ from .models import MasterTask, TaskInstance
 from .serializers import MasterTaskSerializer, TaskInstanceSerializer
 # Create your views here.
 
-#We need one more toggle todo
+#We need one more toggle todo that archives it's weekly task
 
-#and one for toggle master (for the weekly tasks these get archived)
-#should we not only have one that does both?
+
+#and one for toggle master this is when we complete a weekly task straight of the hop
+class MasterTaskToggleArchive(generics.UpdateAPIView):
+    """
+    Toggles the is_archived property of a MasterTask
+    """
+    queryset = MasterTask.objects.all()
+    serializer_class = MasterTaskSerializer
+
+    #not sure what function to use for a patch? but
+    def perform_update(self, serializer):
+        
+        current_status = serializer.instance.is_archived
+        serializer.save(is_archived=not current_status)
+
+
 
 
 #This one should be called everytime we create a new weekly task
