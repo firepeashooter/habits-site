@@ -39,6 +39,11 @@ class TaskInstanceCreateView(generics.CreateAPIView):
         # Intercept the automatic saving process and inject the user assignment!
         from django.contrib.auth.models import User
         user_profile = User.objects.get(username='benja')
+
+
+        #Here we also want to connect it to a mastertodo if there exists one if not we make a new one
+        #I think it's enough to lookup just by name that way we never have any duplicated names in the db for the master tasks
+        #Use djangos get_or_create() method
         
         serializer.save(user=user_profile)
 
