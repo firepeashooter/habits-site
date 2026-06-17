@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import DailyHabitsListView, MasterTaskCreateView, TaskInstanceCreateView, AllInstanceListView
+from .views import ActiveMasterTasksListView, DailyHabitsListView, MasterTaskCreateView, TaskInstanceCreateView, AllInstanceListView
 
 urlpatterns = [
     # This maps 'active-dailies/' to your class-based view.
@@ -8,4 +8,5 @@ urlpatterns = [
     path('create-todo/', MasterTaskCreateView.as_view(), name='create-todo'),
     path('create-instance/', TaskInstanceCreateView.as_view(), name='create-instance'),
     path('view-all/', AllInstanceListView.as_view(), name='view-all'),
+    path('weekly-tasks/', ActiveMasterTasksListView.as_view(), name='weekly-tasks'),
 ]

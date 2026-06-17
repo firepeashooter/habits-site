@@ -5,6 +5,10 @@ from .models import MasterTask, TaskInstance
 from .serializers import MasterTaskSerializer, TaskInstanceSerializer
 # Create your views here.
 
+#We need one more toggle todo
+
+#and one for toggle master (for the weekly tasks these get archived)
+
 
 #I want a view to create a master task for when user adds a task to weekly
 class MasterTaskCreateView(generics.CreateAPIView):
@@ -45,6 +49,25 @@ class AllInstanceListView(generics.ListAPIView):
 
     serializer_class = TaskInstanceSerializer
     queryset = TaskInstance.objects.all()
+
+class ActiveMasterTasksListView(generics.ListAPIView):
+    """
+    Returns a list of all master todo objects that are not
+    archived
+    """
+
+    serializer_class = MasterTaskSerializer
+
+    def get_queryset(self):
+        user_username = 'benja'
+
+        #Double underscore tells django to lookup from the mastertodo
+        return MasterTask.objects.filter(
+            user__username=user_username,
+            is_daily=False,
+            is_archived=False
+        )
+
 
 class DailyHabitsListView(generics.ListAPIView):
         """
