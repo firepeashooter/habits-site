@@ -8,10 +8,14 @@ from .serializers import MasterTaskSerializer, TaskInstanceSerializer
 #We need one more toggle todo
 
 #and one for toggle master (for the weekly tasks these get archived)
+#should we not only have one that does both?
 
 
-#I want a view to create a master task for when user adds a task to weekly
+#This one should be called everytime we create a new weekly task
 class MasterTaskCreateView(generics.CreateAPIView):
+    """
+    Creates a new MasterTask in the database
+    """
 
     #Tells the CreateAPIView where to save the new thing in the database and which serializer to validate it
     queryset = MasterTask.objects.all()
@@ -26,9 +30,14 @@ class MasterTaskCreateView(generics.CreateAPIView):
         serializer.save(user=user_profile)
 
 
-#I want a view to create an instance given a day for either when the user adds a task
-#to the todays todo card or the tommorrows todo card
+#This one should be called everytime we add a todo to the current or tommorrow todos
+#The date will be today if on the current card, next day if on the tommorrow card
 class TaskInstanceCreateView(generics.CreateAPIView):
+    """
+    Creates a new TaskInstance in the database with given name and date
+    If a MasterTask with the same name exists link it
+    If not then create a new MasterTask with that name
+    """
 
     queryset = TaskInstance.objects.all()
     serializer_class = TaskInstanceSerializer
@@ -48,9 +57,14 @@ class TaskInstanceCreateView(generics.CreateAPIView):
                 name=todo_name,
                 defaults={
                     'user': user_profile,
-                    'is_daily': False
+                    'is_daily': False,
+                    'is_archived': False
                     }
                 )
+
+        if not created:
+            master_task.is_archived = False
+            master_task.save(update_fields['is_archived'])
         
         serializer.save(user=user_profile, todo=master_task)
 
@@ -62,6 +76,8 @@ class AllInstanceListView(generics.ListAPIView):
     serializer_class = TaskInstanceSerializer
     queryset = TaskInstance.objects.all()
 
+
+#This one should be called by the weekly card to display all tasks
 class ActiveMasterTasksListView(generics.ListAPIView):
     """
     Returns a list of all master todo objects that are not
