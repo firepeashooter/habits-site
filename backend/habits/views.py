@@ -140,9 +140,10 @@ class ActiveMasterTasksListView(generics.ListAPIView):
 
 class AllInstanceListView(generics.ListAPIView):
     """
-    Returns all task instances
+    Returns all task instances for a specific date passed via query parameters
     """
 
+    #TODO Make this take in a date a return the instances associate with the date. 
     serializer_class = TaskInstanceSerializer
     queryset = TaskInstance.objects.all()
 
