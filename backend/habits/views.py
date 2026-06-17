@@ -1,3 +1,5 @@
+from asyncio import Task
+
 from django.shortcuts import render
 from datetime import date
 from rest_framework import generics
@@ -6,6 +8,34 @@ from .serializers import MasterTaskSerializer, TaskInstanceSerializer
 # Create your views here.
 
 #We need one more toggle todo that archives it's weekly task
+class TaskInstanceToggleComplete(generics.UpdateAPIView):
+    """
+    Toggle the is_completed property of a task instance
+    also archives the master task associate with it
+    """
+
+    queryset = TaskInstance.objects.all()
+    serializer_class = TaskInstanceSerializer
+
+    def perform_update(self, serializer):
+        #serializer.instance is a wrapper around the actual database row
+        current_status = serializer.instance.is_completed
+        associated_task = serializer.instance.todo
+
+        if current_status:
+
+            associated_task.is_archived = False
+            associated_task.save(update_fields=['is_archived'])
+            
+            serializer.save(is_completed=False)
+
+        else:
+
+            associated_task.is_archived = True
+            associated_task.save(update_fields=['is_archived'])
+            
+            serializer.save(is_completed=True)
+
 
 
 #and one for toggle master this is when we complete a weekly task straight of the hop
