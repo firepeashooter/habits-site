@@ -18,6 +18,8 @@ function SignInCard({ title, submitText, inputs, bottomText, link, linkText }: S
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
+		//Here eventually we will send to the backend and verify
+
 		event.preventDefault();
 
 		const formData = new FormData(event.currentTarget);
