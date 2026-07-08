@@ -2,14 +2,15 @@ import SignInCard from "../Components/SignInComps/SignInCard"
 
 export interface InputObject {
 	id: string;
+	name: string;
 	placeholder: string
 	type: string;
 }
 
 const inputs: InputObject[] = [
-	{ id: "email", placeholder: "Email", type: "email" },
-	{ id: "username", placeholder: "Username", type: "text" },
-	{ id: "password", placeholder: "Password", type: "password" },
+	{ id: "email", name: "email", placeholder: "Email", type: "email" },
+	{ id: "username", name: "username", placeholder: "Username", type: "text" },
+	{ id: "password", name: "password", placeholder: "Password", type: "password" },
 ]
 
 function SignUp() {

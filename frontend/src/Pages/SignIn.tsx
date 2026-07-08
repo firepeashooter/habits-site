@@ -2,8 +2,8 @@ import SignInCard from "../Components/SignInComps/SignInCard"
 import type { InputObject } from "./SignUp"
 
 const inputs: InputObject[] = [
-	{ id: "email", placeholder: "Email", type: "email" },
-	{ id: "password", placeholder: "Password", type: "password" },
+	{ id: "email", name: "email", placeholder: "Email", type: "email" },
+	{ id: "password", name: "password", placeholder: "Password", type: "password" },
 ]
 
 function SignIn() {
