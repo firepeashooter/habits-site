@@ -1,7 +1,9 @@
 # Create your models here.
 import uuid
 from django.db import models
-from django.contrib.auth.models import User  # Built-in User table
+from django.contrib.auth import get_user_model  #Imports our current user model
+
+User = get_user_model()
 
 class MasterTask(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
