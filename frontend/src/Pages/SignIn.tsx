@@ -11,7 +11,7 @@ function SignIn() {
 	return (
 
 		<div className='flex justify-center items-center bg-slate-900 text-slate-100 min-h-screen w-full'>
-			<SignInCard title="Welcome Back" submitText="Sign In" inputs={inputs} bottomText="Don't Have an account? Click Here: " link="https://www.google.com" linkText="Sign Up" />
+			<SignInCard title="Welcome Back" submitText="Sign In" inputs={inputs} bottomText="Don't Have an account? Click Here: " link="/signup" linkText="Sign Up" />
 		</div>
 
 	)
