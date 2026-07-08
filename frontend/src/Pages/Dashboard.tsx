@@ -1,8 +1,8 @@
-import Header from '../Components/Header.tsx'
-import TodoSection from '../Components/TodoSection'
-import MobileNavBar from '../Components/MobileNavBar.tsx'
+import Header from '../Components/DashboardComps/Header.tsx'
+import TodoSection from '../Components/DashboardComps/TodoSection'
+import MobileNavBar from '../Components/DashboardComps/MobileNavBar.tsx'
 import { useState } from 'react'
-import PlanningSection from '../Components/Planningsection.tsx'
+import PlanningSection from '../Components/DashboardComps/Planningsection.tsx'
 
 
 function Dashboard() {

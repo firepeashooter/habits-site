@@ -1,4 +1,4 @@
-import Raypfp from '../assets/thumb-1920-376165.png'
+import Raypfp from '../../assets/thumb-1920-376165.png'
 
 function Header() {
 
