@@ -5,6 +5,7 @@ from datetime import date
 from rest_framework import generics
 from .models import MasterTask, TaskInstance
 from .serializers import MasterTaskSerializer, TaskInstanceSerializer
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 #We need one more toggle todo that archives it's weekly task
@@ -14,8 +15,12 @@ class TaskInstanceToggleComplete(generics.UpdateAPIView):
     also archives the master task associate with it
     """
 
-    queryset = TaskInstance.objects.all()
     serializer_class = TaskInstanceSerializer
+    permission_classes = [IsAuthenticated]
+
+    #Queries only the users own tasks
+    def get_queryset(self):
+        return TaskInstance.objects.filter(user=self.request.user)
 
     def perform_update(self, serializer):
         #serializer.instance is a wrapper around the actual database row
@@ -43,10 +48,12 @@ class MasterTaskToggleArchive(generics.UpdateAPIView):
     """
     Toggles the is_archived property of a MasterTask
     """
-    queryset = MasterTask.objects.all()
     serializer_class = MasterTaskSerializer
+    permission_classes = [IsAuthenticated]
 
-    #not sure what function to use for a patch? but
+    def get_queryset(self):
+        return MasterTask.objects.filter(user=self.request.user)
+
     def perform_update(self, serializer):
         
         current_status = serializer.instance.is_archived
@@ -60,18 +67,14 @@ class MasterTaskCreateView(generics.CreateAPIView):
     """
     Creates a new MasterTask in the database
     """
-
+    
+    permission_classes = [IsAuthenticated]
     #Tells the CreateAPIView where to save the new thing in the database and which serializer to validate it
     queryset = MasterTask.objects.all()
     serializer_class = MasterTaskSerializer
 
-    #This is temporary since we don't have auth yet
     def perform_create(self, serializer):
-        # Intercept the automatic saving process and inject the user assignment!
-        from django.contrib.auth.models import User
-        user_profile = User.objects.get(username='benja')
-        
-        serializer.save(user=user_profile)
+        serializer.save(user=self.request.user)
 
 
 #This one should be called everytime we add a todo to the current or tommorrow todos
@@ -85,13 +88,13 @@ class TaskInstanceCreateView(generics.CreateAPIView):
 
     queryset = TaskInstance.objects.all()
     serializer_class = TaskInstanceSerializer
+    
+    permission_classes = [IsAuthenticated]
 
-
-    #This is temporary since we don't have auth yet
     def perform_create(self, serializer):
         # Intercept the automatic saving process and inject the user assignment!
         from django.contrib.auth.models import User
-        user_profile = User.objects.get(username='benja')
+        user_profile = self.request.user
 
         #Pop ensures that we only use the name for the lookup but it's not in the creation of the new task
         todo_name= serializer.validated_data.pop('name')
@@ -99,8 +102,8 @@ class TaskInstanceCreateView(generics.CreateAPIView):
         #Create a new task if one doesn't exist other wise grab one with the same name
         master_task, created = MasterTask.objects.get_or_create(
                 name=todo_name,
+                user=user_profile,
                 defaults={
-                    'user': user_profile,
                     'is_daily': False,
                     'is_archived': False
                     }
@@ -108,7 +111,7 @@ class TaskInstanceCreateView(generics.CreateAPIView):
 
         if not created:
             master_task.is_archived = False
-            master_task.save(update_fields['is_archived'])
+            master_task.save(update_fields=['is_archived'])
         
         #Saves everything inside the serializer (the whole json) we don't have todo (calcualted here) and user 
         #in our serializer.validated_date() so we have to specify it here
@@ -122,15 +125,14 @@ class ActiveMasterTasksListView(generics.ListAPIView):
     Returns a list of all master todo objects that are not
     archived
     """
-
+    permission_classes = [IsAuthenticated]
     serializer_class = MasterTaskSerializer
 
     def get_queryset(self):
-        user_username = 'benja'
+        current_user = self.request.user
 
-        #Double underscore tells django to lookup from the mastertodo
         return MasterTask.objects.filter(
-            user__username=user_username,
+            user=current_user,
             is_daily=False,
             is_archived=False
         )
@@ -142,11 +144,17 @@ class AllInstanceListView(generics.ListAPIView):
     """
     Returns all task instances for a specific date passed via query parameters
     """
+    permission_classes = [IsAuthenticated]
 
     #TODO Make this take in a date a return the instances associate with the date. 
     serializer_class = TaskInstanceSerializer
-    queryset = TaskInstance.objects.all()
 
+    def get_queryset(self):
+        current_user = self.request.user
+
+        return TaskInstance.objects.filter(
+            user=current_user,
+        )
 
 class DailyHabitsListView(generics.ListAPIView):
         """
@@ -154,9 +162,10 @@ class DailyHabitsListView(generics.ListAPIView):
         Example: /api/habits/calendar/?date=2026-06-10
         """
         serializer_class = TaskInstanceSerializer
+        permission_classes = [IsAuthenticated]
 
         def get_queryset(self):
-            user_username = 'benja'
+            current_user = self.request.user
             
             #Look for a ?date=YYYY-MM-DD parameter in the URL
             date_param = self.request.query_params.get('date', None)
@@ -177,7 +186,7 @@ class DailyHabitsListView(generics.ListAPIView):
 
             #Double underscore tells django to lookup from the mastertodo
             return TaskInstance.objects.filter(
-                user__username=user_username,
+                user=current_user,
                 date=target_date,
                 todo__is_daily = True
             )

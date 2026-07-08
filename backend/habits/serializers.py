@@ -8,7 +8,7 @@ class MasterTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterTask
         # These are the exact keys your frontend will see inside 'todo_details'
-        fields = ['id', 'name', 'is_daily', 'is_archived']
+        fields = ['id','user', 'name', 'is_daily', 'is_archived']
 
 class TaskInstanceSerializer(serializers.ModelSerializer):
     """
@@ -23,8 +23,8 @@ class TaskInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskInstance
         # These are the exact keys that represent a single instance log row
-        fields = ['id', 'todo','name','todo_details', 'date', 'is_completed']
+        fields = ['id', 'user', 'todo','name','todo_details', 'date', 'is_completed']
 
-    extra_kwargs = {
+extra_kwargs = {
             'todo': {'read_only': True}
         }
