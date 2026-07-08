@@ -1,12 +1,19 @@
+import type { InputObject } from "../../Pages/SignUp";
 import InputField from "./InputField"
 import SubmitButton from "./SubmitButton";
 
 interface SignInCardProps {
 	title: string;
+	submitText: string;
+	inputs: InputObject[]
+	bottomText: string;
+	link: string;
+	linkText: string;
+
 
 }
 
-function SignInCard({ title }: SignInCardProps) {
+function SignInCard({ title, submitText, inputs, bottomText, link, linkText }: SignInCardProps) {
 
 	return (
 
@@ -14,12 +21,20 @@ function SignInCard({ title }: SignInCardProps) {
 			<h1 className="font-bold text-xl">{title}</h1>
 			<form action="" className="flex flex-col gap-5">
 
-				<InputField placeholder="Username" />
-				<InputField placeholder="Password" />
-				<SubmitButton />
+				{
+					inputs.map((input) =>
+						<InputField
+							key={input.id}
+							placeholder={input.placeholder}
+							type={input.type}
+						/>
+					)
+				}
+
+				<SubmitButton text={submitText} />
 			</form>
 
-			<p className="text-sm">Don't Have an Account? Sign up Here: <a href="https://www.google.com" className="text-blue-600 underline">Sign Up</a></p>
+			<p className="text-sm">{bottomText}<a href={link} className="text-blue-600 underline">{linkText}</a></p>
 
 
 		</div>
