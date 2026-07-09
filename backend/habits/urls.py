@@ -9,6 +9,6 @@ urlpatterns = [
     path('create-instance/', TaskInstanceCreateView.as_view(), name='create-instance'),
     path('view-all/', AllInstanceListView.as_view(), name='view-all'),
     path('weekly-tasks/', ActiveMasterTasksListView.as_view(), name='weekly-tasks'),
-    path('master-task/<int:pk>/toggle-archive/', MasterTaskToggleArchive.as_view(), name='toggle-archive'),
-    path('task-instance/<int:pk>/toggle-complete/', TaskInstanceToggleComplete.as_view(), name='toggle-complete'),
+    path('master-task/<uuid:pk>/toggle-archive/', MasterTaskToggleArchive.as_view(), name='toggle-archive'),
+    path('task-instance/<uuid:pk>/toggle-complete/', TaskInstanceToggleComplete.as_view(), name='toggle-complete'),
 ]
