@@ -5,7 +5,7 @@ from datetime import date
 from rest_framework import generics
 from .models import MasterTask, TaskInstance
 from .serializers import MasterTaskSerializer, TaskInstanceSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 # Create your views here.
 
 #We need one more toggle todo that archives it's weekly task
