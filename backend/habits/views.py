@@ -65,16 +65,32 @@ class MasterTaskToggleArchive(generics.UpdateAPIView):
 #This one should be called everytime we create a new weekly task
 class MasterTaskCreateView(generics.CreateAPIView):
     """
-    Creates a new MasterTask in the database
+    Creates a new MasterTask in the database if there is a duplicate, it finds the correct one and toggles it active
     """
     
     permission_classes = [IsAuthenticated]
-    #Tells the CreateAPIView where to save the new thing in the database and which serializer to validate it
     queryset = MasterTask.objects.all()
     serializer_class = MasterTaskSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        user_profile = self.request.user
+        task_name = serializer.validated_data.get('name')
+        is_daily_setting = serializer.validated_data.get('is_daily', False)
+
+        #Find the existing task or build a new one
+        master_task, created = MasterTask.objects.get_or_create(
+            user=user_profile,
+            name=task_name,
+            defaults={'is_daily': is_daily_setting, 'is_archived': False}
+        )
+
+        if not created:
+            master_task.is_archived = False
+            master_task.is_daily = is_daily_setting
+            master_task.save(update_fields=['is_archived', 'is_daily'])
+        
+        # Override the serializer's save behavior to point to our matched/updated task
+        serializer.instance = master_task
 
 
 #This one should be called everytime we add a todo to the current or tommorrow todos
