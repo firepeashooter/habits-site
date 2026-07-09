@@ -1,3 +1,4 @@
+from django.db.models import Value
 from django.shortcuts import render
 from datetime import date
 from rest_framework import generics
@@ -168,13 +169,13 @@ class ActiveMasterTasksListView(generics.ListAPIView):
 
 
 
+#Test view
 class AllInstanceListView(generics.ListAPIView):
     """
-    Returns all task instances for a specific date passed via query parameters
+    Returns all task instances for current user
     """
     permission_classes = [IsAuthenticated]
 
-    #TODO Make this take in a date a return the instances associate with the date. 
     serializer_class = TaskInstanceSerializer
 
     def get_queryset(self):
@@ -183,6 +184,43 @@ class AllInstanceListView(generics.ListAPIView):
         return TaskInstance.objects.filter(
             user=current_user,
         )
+
+class InstanceByDateView(generics.ListAPIView):
+        """
+        Returns task instances for a specific date passed via query parameters.
+        Example: /api/habits/calendar/?date=2026-06-10
+        """
+        serializer_class = TaskInstanceSerializer
+        permission_classes = [IsAuthenticated]
+
+        def get_queryset(self):
+            current_user = self.request.user
+
+            #Look for a ?date=YYYY-MM-DD parameter in the URL
+            date_param = self.request.query_params.get('date', None)
+            
+            #Parse the date or default to today's date
+            if date_param:
+                try:
+
+                    #Cleans the date string coming in
+                    clean_date = str(date_param).strip()
+                    # Converts the "YYYY-MM-DD" string into a Python date object
+                    target_date = date.fromisoformat(clean_date)
+                except ValueError:
+                    # If the frontend passes a bad date string, fallback safely to today
+                    target_date = date.today()
+            else:
+                target_date = date.today()
+
+            
+            #Return the filtered rows matching that exact date for the frontend
+
+            #Double underscore tells django to lookup from the mastertodo
+            return TaskInstance.objects.filter(
+                user=current_user,
+                date=target_date,
+            )
 
 class DailyHabitsListView(generics.ListAPIView):
         """
@@ -194,15 +232,18 @@ class DailyHabitsListView(generics.ListAPIView):
 
         def get_queryset(self):
             current_user = self.request.user
-            
+
             #Look for a ?date=YYYY-MM-DD parameter in the URL
             date_param = self.request.query_params.get('date', None)
             
             #Parse the date or default to today's date
             if date_param:
                 try:
+
+                    #Cleans the date string coming in
+                    clean_date = str(date_param).strip()
                     # Converts the "YYYY-MM-DD" string into a Python date object
-                    target_date = date.fromisoformat(date_param)
+                    target_date = date.fromisoformat(clean_date)
                 except ValueError:
                     # If the frontend passes a bad date string, fallback safely to today
                     target_date = date.today()
