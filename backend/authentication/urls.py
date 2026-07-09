@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView       
 )
 from .views import register_user
+from .views import ListAllUsersTestView
 
 urlpatterns = [
     #custom view for creating a user
@@ -15,4 +16,5 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('test/users/', ListAllUsersTestView.as_view(), name='test-list-users'),
 ]

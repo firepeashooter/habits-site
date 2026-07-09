@@ -16,3 +16,26 @@ def register_user(request):
         return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+#TODO: REMEMBER TO REMOVE EVERYTHING BELOW THIS LINE THIS IS JUST FOR TESTING TO SEE ALL USERS
+from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+#Quick view to see all users
+class ListAllUsersTestView(generics.ListAPIView):
+    queryset = User.objects.all()
+    
+    # We reuse a basic serializer to dynamically grab standard user fields
+    from rest_framework import serializers
+    class TestUserSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = User
+            fields = ['id', 'username', 'email', 'is_staff', 'is_active']
+            
+    serializer_class = TestUserSerializer
+
+
