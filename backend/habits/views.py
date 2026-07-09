@@ -1,5 +1,3 @@
-from asyncio import Task
-
 from django.shortcuts import render
 from datetime import date
 from rest_framework import generics
@@ -109,11 +107,12 @@ class TaskInstanceCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         # Intercept the automatic saving process and inject the user assignment!
-        from django.contrib.auth.models import User
         user_profile = self.request.user
 
         #Pop ensures that we only use the name for the lookup but it's not in the creation of the new task
         todo_name= serializer.validated_data.pop('name')
+        log_date = serializer.validated_data.get('date')
+        completed_status = serializer.validated_data.get('is_completed', False)
 
         #Create a new task if one doesn't exist other wise grab one with the same name
         master_task, created = MasterTask.objects.get_or_create(
@@ -128,10 +127,23 @@ class TaskInstanceCreateView(generics.CreateAPIView):
         if not created:
             master_task.is_archived = False
             master_task.save(update_fields=['is_archived'])
+
+
+        #Create a new task instance if one doesn't exist otherwise redirect to this one
+        task_instance, instance_created = TaskInstance.objects.get_or_create(
+            user=user_profile,
+            todo=master_task,
+            date=log_date,
+            defaults={'is_completed': completed_status}
+        )
+
+        if not instance_created:
+            # If the user is sending this again, they are likely toggling completion status
+            task_instance.is_completed = completed_status
+            task_instance.save(update_fields=['is_completed'])
         
-        #Saves everything inside the serializer (the whole json) we don't have todo (calcualted here) and user 
-        #in our serializer.validated_date() so we have to specify it here
-        serializer.save(user=user_profile, todo=master_task)
+        serializer.instance = task_instance       
+
 
 
 
