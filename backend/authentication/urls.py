@@ -15,7 +15,9 @@ urlpatterns = [
 
     #Built in paths I guess for obtaining tokens
     path('login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    #Grabs their refresh token and returns a fresh access token
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    #Can verify refresh or access token but mostly used to verify access token
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('test/users/', ListAllUsersTestView.as_view(), name='test-list-users'),
 ]
