@@ -10,7 +10,7 @@ from .views import LogoutView
 urlpatterns = [
     #custom view for creating a user
     path('signup/', register_user, name='sign_up'),
-    path('logout/', LogoutView.as_view(), name-'log_out'),
+    path('logout/', LogoutView.as_view(), name='log_out'),
 
 
     #Built in paths I guess for obtaining tokens
