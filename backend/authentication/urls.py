@@ -5,10 +5,12 @@ from rest_framework_simplejwt.views import (
 )
 from .views import register_user
 from .views import ListAllUsersTestView, CustomTokenObtainPairView
+from .views import LogoutView
 
 urlpatterns = [
     #custom view for creating a user
     path('signup/', register_user, name='sign_up'),
+    path('logout/', LogoutView.as_view(), name-'log_out'),
 
 
     #Built in paths I guess for obtaining tokens
