@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { InputObject } from "../../Pages/SignUp";
+import { useState } from "react";
 import InputField from "./InputField"
 import SubmitButton from "./SubmitButton";
+import ErrorBanner from "./ErrorBanner";
 
 interface SignInCardProps {
 	title: string;
@@ -10,24 +12,51 @@ interface SignInCardProps {
 	bottomText: string;
 	link: string;
 	linkText: string;
-
-
+	backendURL: string;
 }
 
-function SignInCard({ title, submitText, inputs, bottomText, link, linkText }: SignInCardProps) {
+function SignInCard({ title, submitText, inputs, bottomText, link, linkText, backendURL }: SignInCardProps) {
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const [isError, setIsError] = useState(false);
+	const navigate = useNavigate()
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
 		//Here eventually we will send to the backend and verify
-
 		event.preventDefault();
 
 		const formData = new FormData(event.currentTarget);
-
 		const formValues = Object.fromEntries(formData.entries());
 
 		console.log("Form Submitted! Values:", formValues);
 
+		try {
+			const response = await fetch(backendURL, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formValues),
+
+			});
+
+			if (!response.ok) {
+				setIsError(true)
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const result = await response.json();
+
+			//TODO: Make the access token NOT be in local storage this is for testing
+			localStorage.setItem("accessToken", result.access)
+			setIsError(false)
+			console.log("Response:", result)
+			navigate("/dashboard")
+
+		} catch (error) {
+			setIsError(true);
+			console.error("Error Fetching from Credentials from backend:", error);
+		}
 	};
 
 	return (
@@ -49,6 +78,8 @@ function SignInCard({ title, submitText, inputs, bottomText, link, linkText }: S
 
 				<SubmitButton text={submitText} />
 			</form>
+
+			{isError && <ErrorBanner bannerMessage="Username or Password is Incorrect" />}
 
 			<p className="text-sm">{bottomText}<Link to={link} className="text-blue-600 underline">{linkText}</Link></p>
 

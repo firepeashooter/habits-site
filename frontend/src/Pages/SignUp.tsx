@@ -18,7 +18,7 @@ function SignUp() {
 	return (
 
 		<div className='flex justify-center items-center bg-slate-900 text-slate-100 min-h-screen w-full'>
-			<SignInCard title="Create an Account" submitText="Create Account" inputs={inputs} bottomText="Already Have an account? Click Here: " link="/signin" linkText="Sign In" />
+			<SignInCard title="Create an Account" submitText="Create Account" inputs={inputs} bottomText="Already Have an account? Click Here: " link="/signin" linkText="Sign In" backendURL="http://127.0.0.1:8000/api/auth/signup/" />
 		</div>
 
 	)
