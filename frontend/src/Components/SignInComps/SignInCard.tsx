@@ -40,6 +40,7 @@ function SignInCard({ title, submitText, inputs, bottomText, link, linkText, bac
 
 			});
 
+			//TODO:When a username already exists in the system we need to be able to read for that
 			if (!response.ok) {
 				setIsError(true)
 				throw new Error(`HTTP error! status: ${response.status}`);
@@ -49,6 +50,12 @@ function SignInCard({ title, submitText, inputs, bottomText, link, linkText, bac
 
 			//TODO: Make the access token NOT be in local storage this is for testing
 			localStorage.setItem("accessToken", result.access)
+
+			//TODO: Currently the username isn't getting sent back when we sign up, we need to change that
+
+			//Stores the username in local storage so we can display it
+			localStorage.setItem("username", result.username);
+
 			setIsError(false)
 			console.log("Response:", result)
 			navigate("/dashboard")

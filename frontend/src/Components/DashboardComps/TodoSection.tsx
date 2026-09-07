@@ -83,10 +83,12 @@ function TodoSection() {
 
 	}
 
+	const username = localStorage.getItem("username");
+
 	return (
 
 		<div className="flex flex-col items-center gap-5 pb-10">
-			<h1 className="font-sans font-bold text-3xl p-4">Good Morning Benjamin!</h1>
+			<h1 className="font-sans font-bold text-3xl p-4">Good Morning {username}</h1>
 
 			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" />
 			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" />
