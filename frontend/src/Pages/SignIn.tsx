@@ -1,4 +1,4 @@
-import SignInCard from "../Components/SignInComps/SignInCard"
+import SignInCard from "../Components/SignInComps/SignInCard.tsx"
 import type { InputObject } from "./SignUp"
 
 const inputs: InputObject[] = [

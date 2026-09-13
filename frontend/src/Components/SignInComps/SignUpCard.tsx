@@ -15,7 +15,7 @@ interface SignUpCardProps {
 	backendURL: string;
 }
 
-function SignInCard({ title, submitText, inputs, bottomText, link, linkText, backendURL }: SignUpCardProps) {
+function SignUpCard({ title, submitText, inputs, bottomText, link, linkText, backendURL }: SignUpCardProps) {
 
 	const [isError, setIsError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -49,19 +49,17 @@ function SignInCard({ title, submitText, inputs, bottomText, link, linkText, bac
 
 			console.log(data);
 
-			//TODO: again what if 500 server error is the response? does that go to my catch? 
+
+			//TODO: if this throws an error that's not a login invalid credentials error we have a problem, change this to
+			//if response == 400 reponse
+			//cause if it's a 500 response this this happens but we don't even get the data, ro does that go straight to the catch?
 			if (!response.ok) {
 				setIsError(true);
-				setErrorMessage("Invalid Username or Password");
+				setErrorMessage(data.email || data.username);
 			} else {
 
 				setIsError(false)
 				console.log("Response:", data)
-
-				//TODO: Don't store the access token in local storage in prod
-				//Stores the access token in localstorage FOR NOW
-				localStorage.setItem("accessToken", data.access)
-
 				// Stores the username in local storage so we can display it
 				localStorage.setItem("username", data.username);
 				navigate("/dashboard")
@@ -139,4 +137,4 @@ function SignInCard({ title, submitText, inputs, bottomText, link, linkText, bac
 	)
 }
 
-export default SignInCard
+export default SignUpCard
