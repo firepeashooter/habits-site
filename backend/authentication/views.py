@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
-from .serializers import RegisterSerializer, CustomTokenObtainPairSerializer
+from .serializers import CustomTokenObtainPairSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import generics
@@ -13,22 +13,28 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
+class CreateUser(APIView):
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+
+            #Generate our tokens
+            refresh = RefreshToken.for_user(user)
+
+            return Response({
+                "message": "User created successfully!", 
+                "username": serializer.data["username"], 
+                "refresh": str(refresh),
+                "access": str(refresh.access_token)
+                }, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
-
-@api_view(['POST'])
-@permission_classes([AllowAny]) # Anyone can access this to make an account
-def register_user(request):
-
-    serializer = RegisterSerializer(data=request.data)
-
-    username = request.data.get("username")
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response({"message": "User created successfully!", "username": username}, status=status.HTTP_201_CREATED)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 #This is the manual version of generics.createAPIView.. etc. these generics are mostly used for basic crud things

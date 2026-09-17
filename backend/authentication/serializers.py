@@ -5,23 +5,26 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 User = get_user_model()
 
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+class UserSerializer(serializers.ModelSerializer):
 
+    #Model and Fields we want to validate
     class Meta:
         model = User
-        fields = ('email', 'password', 'username')
+        fields = ["username", "password", "email"]
+        #Keeps password out of serializer.data
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         #Auto Hashes password and creates us a python object from our frontend JSON
         user = User.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password'],
-            username=validated_data['username']
+            username=validated_data['username'],
         )
+
         return user
 
-
+#Simply adds the username to the payload
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
