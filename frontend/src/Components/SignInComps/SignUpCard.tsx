@@ -62,6 +62,9 @@ function SignUpCard({ title, submitText, inputs, bottomText, link, linkText, bac
 				console.log("Response:", data)
 				// Stores the username in local storage so we can display it
 				localStorage.setItem("username", data.username);
+
+				//TODO: Don't store this in local storage when we move to prod
+				localStorage.setItem("accessToken", data.access)
 				navigate("/dashboard")
 			}
 
