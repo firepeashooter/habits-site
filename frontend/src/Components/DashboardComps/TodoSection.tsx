@@ -1,5 +1,5 @@
 import TodoCard from "./TodoCard"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface TodoItemType {
 	id: string;
@@ -44,6 +44,23 @@ function TodoSection() {
 	const [curTodos, setCurTodos] = useState(currentTodos)
 	const [dailyTodos, setDailyTodos] = useState(dailies)
 
+	async function GetTodoByDate(date: string) {
+
+		const url = new URL("http://127.0.0.1:8000/api/habits/view-date/")
+		url.searchParams.append("date", date)
+
+		try {
+
+			const response = await fetch(url)
+
+			const data = await response.json()
+			console.log(data)
+
+		} catch (error) {
+			console.log(error)
+
+		}
+	}
 
 	function addTodoList(text: string, type: string) {
 
@@ -84,6 +101,9 @@ function TodoSection() {
 	}
 
 	const username = localStorage.getItem("username");
+
+	//TODO: Learn use effect to fetch from the backend
+	useEffect()
 
 	return (
 
