@@ -41,26 +41,29 @@ const currentTodos: TodoItemType[] = [
 
 function TodoSection() {
 
+
+
 	const [curTodos, setCurTodos] = useState(currentTodos)
 	const [dailyTodos, setDailyTodos] = useState(dailies)
 
-	async function GetTodoByDate(date: string) {
+	const [dateToday, setdateToday] = useState(() => {
+		const today = new Date();
+		const year = today.getFullYear();
+		const month = String(today.getMonth() + 1).padStart(2, '0');
+		const day = String(today.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	});
 
-		const url = new URL("http://127.0.0.1:8000/api/habits/view-date/")
-		url.searchParams.append("date", date)
 
-		try {
+	const [dateTomorrow, setdateTomorrow] = useState(() => {
+		const tomorrow = new Date();
 
-			const response = await fetch(url)
-
-			const data = await response.json()
-			console.log(data)
-
-		} catch (error) {
-			console.log(error)
-
-		}
-	}
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		const year = tomorrow.getFullYear();
+		const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+		const day = String(tomorrow.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	});
 
 	function addTodoList(text: string, type: string) {
 
@@ -101,17 +104,16 @@ function TodoSection() {
 	}
 
 	const username = localStorage.getItem("username");
-
-	//TODO: Learn use effect to fetch from the backend
-	useEffect()
+	console.log(dateTomorrow);
+	console.log(dateToday);
 
 	return (
 
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning {username}</h1>
 
-			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" />
-			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" />
+			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" selectedDate={dateToday} />
+			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" selectedDate={dateTomorrow} />
 
 
 		</div>
