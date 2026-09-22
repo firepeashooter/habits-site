@@ -46,6 +46,7 @@ function TodoSection() {
 	const [curTodos, setCurTodos] = useState(currentTodos)
 	const [dailyTodos, setDailyTodos] = useState(dailies)
 
+	//TODO: This formatting shoudl be done in the big fetch function
 	const [dateToday, setdateToday] = useState(() => {
 		const today = new Date();
 		const year = today.getFullYear();
@@ -64,6 +65,40 @@ function TodoSection() {
 		const day = String(tomorrow.getDate()).padStart(2, '0');
 		return `${year}-${month}-${day}`;
 	});
+
+
+	//TODO: One master use effect function that waits for all the todo lists to come in on first load
+
+	useEffect(() => {
+		async function fetchAllTodoLists(date: string) {
+
+			const url = new URL("http://127.0.0.1:8000/api/habits/view-date/");
+			const token = localStorage.getItem("accessToken");
+			url.searchParams.append("date", date);
+
+			try {
+
+				const response = await fetch(url, {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${token}`
+					}
+
+				})
+
+				const data = await response.json()
+				console.log(data)
+
+
+			} catch (error) {
+				console.log(error)
+
+			}
+		}
+
+		fetchAllTodoLists
+	}, []);
 
 	function addTodoList(text: string, type: string) {
 
@@ -112,8 +147,8 @@ function TodoSection() {
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning {username}</h1>
 
-			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" selectedDate={dateToday} />
-			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" selectedDate={dateTomorrow} />
+			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" />
+			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" />
 
 
 		</div>

@@ -2,7 +2,6 @@ import Todo from "./Todo"
 import ProgressWheel from "./ProgressWheel";
 import AddTodoButton from "./AddTodoButton";
 import type { TodoItemType } from "./TodoSection";
-import { useEffect, useState } from "react";
 
 
 interface TodoCardProps {
@@ -11,53 +10,16 @@ interface TodoCardProps {
 	type: string;
 	curTodos: TodoItemType[];
 	editable?: boolean;
-	selectedDate: string;
 	addTodo: (text: string, type: string) => void;
 	toggleTodo: (id: string, type: string) => void;
 }
 
 
-function TodoCard({ header, subheader, curTodos = [], type, editable = false, selectedDate, addTodo, toggleTodo }: TodoCardProps) {
+function TodoCard({ header, subheader, curTodos = [], type, editable = false, addTodo, toggleTodo }: TodoCardProps) {
 
 
 	const totalCount = curTodos.length;
 	const completedCount = curTodos.filter(todo => todo.completed).length;
-
-
-
-	//TODO: Will fetch selected date todos from the backend, and refresh everytime the date changes
-
-	useEffect(() => {
-		async function GetTodoByDate(date: string) {
-
-			const url = new URL("http://127.0.0.1:8000/api/habits/view-date/");
-			const token = localStorage.getItem("accessToken");
-			url.searchParams.append("date", date);
-
-			try {
-
-				const response = await fetch(url, {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"Authorization": `Bearer ${token}`
-					}
-
-				})
-
-				const data = await response.json()
-				console.log(data)
-
-
-			} catch (error) {
-				console.log(error)
-
-			}
-		}
-
-		GetTodoByDate(selectedDate)
-	}, [selectedDate]);
-
 
 	return (
 
