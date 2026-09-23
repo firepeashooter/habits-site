@@ -72,26 +72,28 @@ function TodoSection() {
 	useEffect(() => {
 		async function fetchAllTodoLists() {
 
-			const url = new URL("http://127.0.0.1:8000/api/habits/view-all/");
 			const token = localStorage.getItem("accessToken");
+			const headers = {
+				"Content-Type": "application/json",
+				"Authorization": `Bearer ${token}`
+			}
 
+			//TODO: The dailies need to be reworked somehow
 			try {
-				const response = await fetch(url, {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						"Authorization": `Bearer ${token}`
-					}
 
-				})
+				const [dailyData, todayData] = await Promise.all([
+					fetch('http://127.0.0.1:8000/api/habits/active-dailies/', { method: "GET", headers }),
+					fetch(`http://127.0.0.1:8000/api/habits/view-date/?date=${dateToday}`, { method: "GET", headers })
+				])
 
-				//Converts the data to simplified array that our frontend can handle
-				//updates our todo list 
-				const data = await response.json()
-				console.log(data);
-				const simplified = dataToArray(data);
-				console.log(simplified);
-				setCurTodos(simplified);
+				const rawDailies = await dailyData.json();
+				const rawTodays = await todayData.json();
+
+				const dailies = dataToArray(rawDailies);
+				const todays = dataToArray(rawTodays);
+
+				setCurTodos(todays);
+				setDailyTodos(dailies);
 
 			} catch (error) {
 				console.log(error)
