@@ -43,7 +43,7 @@ function TodoSection() {
 
 
 
-	const [curTodos, setCurTodos] = useState(currentTodos)
+	const [curTodos, setCurTodos] = useState()
 	const [dailyTodos, setDailyTodos] = useState(dailies)
 
 	//TODO: This formatting shoudl be done in the big fetch function
@@ -70,14 +70,12 @@ function TodoSection() {
 	//TODO: One master use effect function that waits for all the todo lists to come in on first load
 
 	useEffect(() => {
-		async function fetchAllTodoLists(date: string) {
+		async function fetchAllTodoLists() {
 
-			const url = new URL("http://127.0.0.1:8000/api/habits/view-date/");
+			const url = new URL("http://127.0.0.1:8000/api/habits/view-all/");
 			const token = localStorage.getItem("accessToken");
-			url.searchParams.append("date", date);
 
 			try {
-
 				const response = await fetch(url, {
 					method: "GET",
 					headers: {
@@ -87,9 +85,13 @@ function TodoSection() {
 
 				})
 
+				//Converts the data to simplified array that our frontend can handle
+				//updates our todo list 
 				const data = await response.json()
-				console.log(data)
-
+				console.log(data);
+				const simplified = dataToArray(data);
+				console.log(simplified);
+				setCurTodos(simplified);
 
 			} catch (error) {
 				console.log(error)
@@ -97,8 +99,22 @@ function TodoSection() {
 			}
 		}
 
-		fetchAllTodoLists
+		fetchAllTodoLists()
 	}, []);
+
+	function dataToArray(data) {
+
+		const simplifiedData = data.map((todo) => (
+			{
+				id: todo.id,
+				name: todo.todo_details.name,
+				is_complete: todo.is_completed
+			})
+		)
+
+		return simplifiedData
+
+	}
 
 	function addTodoList(text: string, type: string) {
 
@@ -139,8 +155,6 @@ function TodoSection() {
 	}
 
 	const username = localStorage.getItem("username");
-	console.log(dateTomorrow);
-	console.log(dateToday);
 
 	return (
 
