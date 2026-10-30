@@ -1,9 +1,10 @@
 from django.db.models import Value
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from datetime import date
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
+from rest_framework.utils import serializer_helpers
 from rest_framework.views import APIView
 from .models import TaskInstance
 from .serializers import TaskInstanceSerializer
@@ -53,6 +54,18 @@ class CreateInstance(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ToggleInstanceComplete(APIView):
+
+    def patch(self, request, pk):
+
+        task_instance = get_object_or_404(TaskInstance, pk=pk)
+
+        task_instance.is_completed = not task_instance.is_completed
+        task_instance.save()
+
+        #Serialize and return
+        serializer = TaskInstanceSerializer(task_instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 
