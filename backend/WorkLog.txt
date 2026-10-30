@@ -1,0 +1,8 @@
+Friday October 30th 2026
+
+Created a View to toggle specific todo instances, simply add the todo id into the url
+
+Re added users! So now todos are associated with users, and only the logged in user can view their own tasks
+or toggle specific tasks, or even just see their own tasks. 
+
+Created an enpoint to retrieve all daily instances for today, and changed the instance view to only show non daily tasks

@@ -11,6 +11,25 @@ from .serializers import TaskInstanceSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 # Create your views here.
 
+class DailyInstanceView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        current_user = self.request.user
+        target_date = date.today()
+
+        instances = TaskInstance.objects.filter(
+            user=current_user,
+            date=target_date,
+            is_daily=True
+        )
+
+        serializer = TaskInstanceSerializer(instances, many=True)
+        return Response(serializer.data)
+
+
 class InstanceByDateView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -33,10 +52,10 @@ class InstanceByDateView(APIView):
         else:
             target_date = date.today()
 
-        #Double underscore tells django to lookup from the mastertodo
         instances = TaskInstance.objects.filter(
             user=current_user,
             date=target_date,
+            is_daily=False
         )
 
         serializer = TaskInstanceSerializer(instances, many=True)
