@@ -10,6 +10,6 @@ class TaskInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskInstance
         # These are the exact keys that represent a single instance log row
-        fields = ['id', 'name', 'date', 'is_completed', 'is_daily']
-        # read_only_fields = ['user']
+        fields = ['id', 'user', 'name', 'date', 'is_completed', 'is_daily']
+        read_only_fields = ['user']
 

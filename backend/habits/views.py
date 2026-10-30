@@ -13,6 +13,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class InstanceByDateView(APIView):
 
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
 
         current_user = self.request.user
@@ -33,22 +35,25 @@ class InstanceByDateView(APIView):
 
         #Double underscore tells django to lookup from the mastertodo
         instances = TaskInstance.objects.filter(
-            # user=current_user,
+            user=current_user,
             date=target_date,
         )
 
         serializer = TaskInstanceSerializer(instances, many=True)
         return Response(serializer.data)
 
+
 class CreateInstance(APIView):
+
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
         serializer = TaskInstanceSerializer(data=request.data)
 
         if serializer.is_valid():
-            #Saves the entry to the database
-            serializer.save()
+            #Saves the entry to the database and ensures the user is used
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -56,9 +61,11 @@ class CreateInstance(APIView):
 
 class ToggleInstanceComplete(APIView):
 
+    permission_classes = [IsAuthenticated]
+
     def patch(self, request, pk):
 
-        task_instance = get_object_or_404(TaskInstance, pk=pk)
+        task_instance = get_object_or_404(TaskInstance, pk=pk, user=request.user)
 
         task_instance.is_completed = not task_instance.is_completed
         task_instance.save()
