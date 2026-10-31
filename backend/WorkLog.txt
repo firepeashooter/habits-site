@@ -9,3 +9,13 @@ Created an enpoint to retrieve all daily instances for today, and changed the in
 
 
 NEXT STEPS: front end work, being able to fetch the lists, and add to them (and then figuring out dailies generations)
+
+
+Saturday October 31st 2026
+
+The front end now fetches todos list from the backend end. Currently only for dailies and current todos. 
+
+The add todo button now posts a new todo instance to the backend. This button calls a function that will handle the button for whatever card we are on. So we only need to add more posts with different params to the other if clauses.
+
+
+NEXT STEPS: Pull in the tomorrow todos, and make it so that we can post an instance for tommorrow, and also hooking up the toggle, and making it so that if we can't add a todo in the backend, it dissapears from the frontend. 
