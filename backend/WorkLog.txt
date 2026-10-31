@@ -6,3 +6,6 @@ Re added users! So now todos are associated with users, and only the logged in u
 or toggle specific tasks, or even just see their own tasks. 
 
 Created an enpoint to retrieve all daily instances for today, and changed the instance view to only show non daily tasks
+
+
+NEXT STEPS: front end work, being able to fetch the lists, and add to them (and then figuring out dailies generations)
