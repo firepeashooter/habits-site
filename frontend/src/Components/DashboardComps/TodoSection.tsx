@@ -41,8 +41,6 @@ const currentTodos: TodoItemType[] = [
 
 function TodoSection() {
 
-
-
 	const [curTodos, setCurTodos] = useState()
 	const [dailyTodos, setDailyTodos] = useState(dailies)
 
@@ -81,13 +79,16 @@ function TodoSection() {
 			//TODO: The dailies need to be reworked somehow
 			try {
 
+				console.log("fetching data....");
 				const [dailyData, todayData] = await Promise.all([
-					fetch('http://127.0.0.1:8000/api/habits/active-dailies/', { method: "GET", headers }),
-					fetch(`http://127.0.0.1:8000/api/habits/view-date/?date=${dateToday}`, { method: "GET", headers })
+					fetch('http://127.0.0.1:8000/api/habits/getDailies/', { method: "GET", headers }),
+					fetch(`http://127.0.0.1:8000/api/habits/todoInstanceList/?date=${dateToday}`, { method: "GET", headers })
 				])
 
 				const rawDailies = await dailyData.json();
 				const rawTodays = await todayData.json();
+
+				console.log(rawTodays);
 
 				const dailies = dataToArray(rawDailies);
 				const todays = dataToArray(rawTodays);
@@ -109,7 +110,7 @@ function TodoSection() {
 		const simplifiedData = data.map((todo) => (
 			{
 				id: todo.id,
-				name: todo.todo_details.name,
+				name: todo.name,
 				is_complete: todo.is_completed
 			})
 		)
@@ -120,11 +121,52 @@ function TodoSection() {
 
 	function addTodoList(text: string, type: string) {
 
+
 		if (type === 'current') {
 
 			//Add our new todo with our text
 			const updatedCurTodos = [...curTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
 			setCurTodos(updatedCurTodos)
+
+			async function postTodo() {
+				const token = localStorage.getItem("accessToken");
+
+				const headers = {
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${token}`
+				};
+
+				console.log("Adding Entry to Backend");
+
+				try {
+
+					const response = await fetch(`http://127.0.0.1:8000/api/habits/createInstance/`, {
+						method: "POST",
+						headers,
+						body: JSON.stringify({
+							date: dateToday,
+							name: text,
+							is_completed: false,
+							is_daily: false
+						})
+					});
+
+					if (!response.ok) {
+						throw new Error("Failed to Save");
+						//TODO: and eventually remove it from the frontend list
+					}
+
+					const data = await response.json()
+					console.log(data)
+
+				} catch (error) {
+					console.log(error);
+				}
+
+			}
+
+			postTodo();
+
 
 		} else if (type === 'daily') {
 
