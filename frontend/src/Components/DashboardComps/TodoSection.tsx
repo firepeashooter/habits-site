@@ -19,30 +19,12 @@ export interface TodoCardType {
 	toggleTodo: (id: string, type: string) => void;
 }
 
-const dailies: TodoItemType[] = [
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Complete a Leetcode", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Apply for Jobs", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Train Chess", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Read 10 Pages", completed: false },
-
-]
-
-{/* Simply request this array from the backend and give it a date. It will just grab all todos with that date*/ }
-const currentTodos: TodoItemType[] = [
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Tidy Appartment", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Do Laundry", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Finish UI for Habits Site", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Update Minecraft Server Scripts", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Update Minecraft Server Scripts again but longer", completed: false },
-	{ id: crypto.randomUUID(), todoID: "master-3", name: "Do Laundry", completed: false },
-]
-
-
 
 function TodoSection() {
 
+	//these are the lists that hold everything, they get filled from the backend
 	const [curTodos, setCurTodos] = useState()
-	const [dailyTodos, setDailyTodos] = useState(dailies)
+	const [dailyTodos, setDailyTodos] = useState()
 
 	//TODO: This formatting shoudl be done in the big fetch function
 	const [dateToday, setdateToday] = useState(() => {
