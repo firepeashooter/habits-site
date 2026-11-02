@@ -19,3 +19,12 @@ The add todo button now posts a new todo instance to the backend. This button ca
 
 
 NEXT STEPS: Pull in the tomorrow todos, and make it so that we can post an instance for tommorrow, and also hooking up the toggle, and making it so that if we can't add a todo in the backend, it dissapears from the frontend. 
+
+
+Sunday November 1st 2026
+
+We can now add and recieve tmrw todos. 
+
+Since they're on a different section, we had to redo a bunch of the code, so now we pull the todos seperatley. I would love the todos to be pulled in all at once into a bunch of lists, that get exported the different files
+
+NEXT STEPS: one big pull to pull all the todos, and then export the lists to the other sections, also we need to remove duplicate code, also check yesterdays Next Steps
