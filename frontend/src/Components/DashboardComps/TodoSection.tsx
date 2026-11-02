@@ -87,6 +87,7 @@ function TodoSection() {
 		fetchAllTodoLists()
 	}, []);
 
+
 	function dataToArray(data) {
 
 		const simplifiedData = data.map((todo) => (
@@ -101,6 +102,42 @@ function TodoSection() {
 
 	}
 
+	async function postTodo(date: String, text: String) {
+		const token = localStorage.getItem("accessToken");
+
+		const headers = {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		};
+
+		console.log("Adding Entry to Backend");
+
+		try {
+
+			const response = await fetch(`http://127.0.0.1:8000/api/habits/createInstance/`, {
+				method: "POST",
+				headers,
+				body: JSON.stringify({
+					date: date,
+					name: text,
+					is_completed: false,
+					is_daily: false
+				})
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to Save");
+				//TODO: and eventually remove it from the frontend list
+			}
+
+			const data = await response.json()
+			console.log(data)
+
+		} catch (error) {
+			console.log(error);
+		}
+
+	}
 	function addTodoList(text: string, type: string) {
 
 
@@ -110,48 +147,22 @@ function TodoSection() {
 			const updatedCurTodos = [...curTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
 			setCurTodos(updatedCurTodos)
 
-			async function postTodo() {
-				const token = localStorage.getItem("accessToken");
 
-				const headers = {
-					"Content-Type": "application/json",
-					"Authorization": `Bearer ${token}`
-				};
+			postTodo(dateToday, text);
 
-				console.log("Adding Entry to Backend");
 
-				try {
+		} else if (type === 'tomorrow') {
 
-					const response = await fetch(`http://127.0.0.1:8000/api/habits/createInstance/`, {
-						method: "POST",
-						headers,
-						body: JSON.stringify({
-							date: dateToday,
-							name: text,
-							is_completed: false,
-							is_daily: false
-						})
-					});
+			const updatedTmrwTodos = [...tmrwTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
+			setTmrwTodos(updatedTmrwTodos)
 
-					if (!response.ok) {
-						throw new Error("Failed to Save");
-						//TODO: and eventually remove it from the frontend list
-					}
 
-					const data = await response.json()
-					console.log(data)
 
-				} catch (error) {
-					console.log(error);
-				}
 
-			}
 
-			postTodo();
-
+			postTodo(dateTomorrow, text);
 
 		} else if (type === 'daily') {
-
 			//Add our new todo with our text
 			const updatedDailyTodos = [...dailyTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
 			setDailyTodos(updatedDailyTodos)
