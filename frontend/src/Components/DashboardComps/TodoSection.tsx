@@ -102,6 +102,36 @@ function TodoSection() {
 
 	}
 
+	async function patchToggleTodo(id) {
+		const token = localStorage.getItem("accessToken");
+
+		const headers = {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		};
+
+		console.log("Adding Entry to Backend");
+
+		try {
+
+			const response = await fetch(`http://127.0.0.1:8000/api/habits/toggleInstanceComplete/${id}`, {
+				method: "PATCH",
+				headers,
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to Toggle");
+			}
+
+			const data = await response.json()
+			console.log(data)
+
+		} catch (error) {
+			console.log(error);
+		}
+
+	}
+
 	async function postTodo(date: String, text: String) {
 		const token = localStorage.getItem("accessToken");
 
@@ -175,12 +205,16 @@ function TodoSection() {
 
 		if (type === 'current') {
 
+			patchToggleTodo(id)
+
 			setCurTodos(prevTodos =>
 				prevTodos.map(todo =>
 					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
 				)
 			);
 		} else if (type === 'daily') {
+
+			patchToggleTodo(id)
 
 			setDailyTodos(prevTodos =>
 				prevTodos.map(todo =>

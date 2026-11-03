@@ -28,3 +28,10 @@ We can now add and recieve tmrw todos.
 Since they're on a different section, we had to redo a bunch of the code, so now we pull the todos seperatley. I would love the todos to be pulled in all at once into a bunch of lists, that get exported the different files
 
 NEXT STEPS: one big pull to pull all the todos, and then export the lists to the other sections, also we need to remove duplicate code, also check yesterdays Next Steps
+
+
+Monday November 2nd 2026
+
+We can now toggle daily todos and tomorrow todos, and they post the toggle to the backend.
+
+We still need to do tomorrow todos, and figure out a way we can pull all of this reused code into something like the dashboard page, or just a better way to export the lists to the different components once we fetch them. I want master backend function to live in one place on a parent component.
