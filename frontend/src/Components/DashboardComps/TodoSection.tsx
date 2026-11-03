@@ -1,5 +1,4 @@
 import TodoCard from "./TodoCard"
-import { useEffect, useState } from "react";
 
 export interface TodoItemType {
 	id: string;
@@ -19,211 +18,18 @@ export interface TodoCardType {
 	toggleTodo: (id: string, type: string) => void;
 }
 
+export interface TodoSectionProps {
+	curTodos: TodoItemType[];
+	dailyTodos: TodoItemType[];
+	addTodoList: (text: string, type: string) => void;
+	toggleTodo: (text: string, type: string) => void;
 
-function TodoSection() {
+}
 
-	//these are the lists that hold everything, they get filled from the backend
-	const [curTodos, setCurTodos] = useState()
-	const [dailyTodos, setDailyTodos] = useState()
 
-	//TODO: This formatting shoudl be done in the big fetch function
-	const [dateToday, setdateToday] = useState(() => {
-		const today = new Date();
-		const year = today.getFullYear();
-		const month = String(today.getMonth() + 1).padStart(2, '0');
-		const day = String(today.getDate()).padStart(2, '0');
-		return `${year}-${month}-${day}`;
-	});
+function TodoSection({ curTodos, dailyTodos, addTodoList, toggleTodo }: TodoSectionProps) {
 
 
-	const [dateTomorrow, setdateTomorrow] = useState(() => {
-		const tomorrow = new Date();
-
-		tomorrow.setDate(tomorrow.getDate() + 1);
-		const year = tomorrow.getFullYear();
-		const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
-		const day = String(tomorrow.getDate()).padStart(2, '0');
-		return `${year}-${month}-${day}`;
-	});
-
-
-	//TODO: One master use effect function that waits for all the todo lists to come in on first load
-
-	useEffect(() => {
-		async function fetchAllTodoLists() {
-
-			const token = localStorage.getItem("accessToken");
-			const headers = {
-				"Content-Type": "application/json",
-				"Authorization": `Bearer ${token}`
-			}
-
-			//TODO: The dailies need to be reworked somehow
-			try {
-
-				console.log("fetching data....");
-				const [dailyData, todayData] = await Promise.all([
-					fetch('http://127.0.0.1:8000/api/habits/getDailies/', { method: "GET", headers }),
-					fetch(`http://127.0.0.1:8000/api/habits/todoInstanceList/?date=${dateToday}`, { method: "GET", headers })
-				])
-
-				const rawDailies = await dailyData.json();
-				const rawTodays = await todayData.json();
-
-				console.log(rawTodays);
-
-				const dailies = dataToArray(rawDailies);
-				const todays = dataToArray(rawTodays);
-
-				setCurTodos(todays);
-				setDailyTodos(dailies);
-
-			} catch (error) {
-				console.log(error)
-
-			}
-		}
-
-		fetchAllTodoLists()
-	}, []);
-
-
-	function dataToArray(data) {
-
-		const simplifiedData = data.map((todo) => (
-			{
-				id: todo.id,
-				name: todo.name,
-				is_complete: todo.is_completed
-			})
-		)
-
-		return simplifiedData
-
-	}
-
-	async function patchToggleTodo(id) {
-		const token = localStorage.getItem("accessToken");
-
-		const headers = {
-			"Content-Type": "application/json",
-			"Authorization": `Bearer ${token}`
-		};
-
-		console.log("Adding Entry to Backend");
-
-		try {
-
-			const response = await fetch(`http://127.0.0.1:8000/api/habits/toggleInstanceComplete/${id}`, {
-				method: "PATCH",
-				headers,
-			});
-
-			if (!response.ok) {
-				throw new Error("Failed to Toggle");
-			}
-
-			const data = await response.json()
-			console.log(data)
-
-		} catch (error) {
-			console.log(error);
-		}
-
-	}
-
-	async function postTodo(date: String, text: String) {
-		const token = localStorage.getItem("accessToken");
-
-		const headers = {
-			"Content-Type": "application/json",
-			"Authorization": `Bearer ${token}`
-		};
-
-		console.log("Adding Entry to Backend");
-
-		try {
-
-			const response = await fetch(`http://127.0.0.1:8000/api/habits/createInstance/`, {
-				method: "POST",
-				headers,
-				body: JSON.stringify({
-					date: date,
-					name: text,
-					is_completed: false,
-					is_daily: false
-				})
-			});
-
-			if (!response.ok) {
-				throw new Error("Failed to Save");
-				//TODO: and eventually remove it from the frontend list
-			}
-
-			const data = await response.json()
-			console.log(data)
-
-		} catch (error) {
-			console.log(error);
-		}
-
-	}
-	function addTodoList(text: string, type: string) {
-
-
-		if (type === 'current') {
-
-			//Add our new todo with our text
-			const updatedCurTodos = [...curTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
-			setCurTodos(updatedCurTodos)
-
-
-			postTodo(dateToday, text);
-
-
-		} else if (type === 'tomorrow') {
-
-			const updatedTmrwTodos = [...tmrwTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
-			setTmrwTodos(updatedTmrwTodos)
-
-
-
-
-
-			postTodo(dateTomorrow, text);
-
-		} else if (type === 'daily') {
-			//Add our new todo with our text
-			const updatedDailyTodos = [...dailyTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
-			setDailyTodos(updatedDailyTodos)
-		}
-
-	}
-
-
-	function toggleTodo(id: string, type: string) {
-
-		if (type === 'current') {
-
-			patchToggleTodo(id)
-
-			setCurTodos(prevTodos =>
-				prevTodos.map(todo =>
-					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
-				)
-			);
-		} else if (type === 'daily') {
-
-			patchToggleTodo(id)
-
-			setDailyTodos(prevTodos =>
-				prevTodos.map(todo =>
-					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
-				)
-			);
-		}
-
-	}
 
 	const username = localStorage.getItem("username");
 
@@ -235,11 +41,7 @@ function TodoSection() {
 			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" />
 			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" />
 
-
 		</div>
-
-
-
 
 	)
 }
