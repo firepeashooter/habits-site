@@ -41,3 +41,8 @@ Tuesday November 3rd 2026
 We moved all the fetching and posting/patching functions to the parent "Dashboard" page component and we are passing the nessesary data down through callbacks, just to clean everything up and keep state at the top.
 
 There is a bug where when we create a todo from the frontend, and try to toggle it, it fails becuase the id is different. Idk if this is becaues it's getting a different id when it's being created but we should create it in the backend first and then pull it in. Or something.
+
+
+So there are two ways to fix this, one way is having a temporary id in the front end, and then after the post, since we get back the backend id, we hot swap it out.
+
+The other, and the one we went with, which is easier is just to send the temp id to the backend when we create it. 

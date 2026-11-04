@@ -3,6 +3,7 @@ import TodoSection from '../Components/DashboardComps/TodoSection'
 import MobileNavBar from '../Components/DashboardComps/MobileNavBar.tsx'
 import { useState, useEffect } from 'react'
 import PlanningSection from '../Components/DashboardComps/Planningsection.tsx'
+import type { UUID } from 'node:crypto'
 
 
 function Dashboard() {
@@ -86,7 +87,7 @@ function Dashboard() {
 		fetchAllTodoLists()
 	}, []);
 
-	async function postTodo(date: String, text: String) {
+	async function postTodo(date: String, text: String, id: UUID) {
 		const token = localStorage.getItem("accessToken");
 
 		const headers = {
@@ -102,6 +103,7 @@ function Dashboard() {
 				method: "POST",
 				headers,
 				body: JSON.stringify({
+					id: id,
 					date: date,
 					name: text,
 					is_completed: false,
@@ -125,25 +127,27 @@ function Dashboard() {
 
 	function addTodoList(text: string, type: string) {
 
+		const clientID = crypto.randomUUID()
+
 		if (type === 'current') {
 
 			//Add our new todo with our text
-			const updatedCurTodos = [...curTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
+			const updatedCurTodos = [...curTodos, { id: clientID, todoID: "master-3", name: text, completed: false }]
 			setCurTodos(updatedCurTodos)
 
-			postTodo(dateToday, text);
+			postTodo(dateToday, text, clientID);
 
 
 		} else if (type === 'tomorrow') {
 
-			const updatedTmrwTodos = [...tomorrowTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
+			const updatedTmrwTodos = [...tomorrowTodos, { id: clientID, todoID: "master-3", name: text, completed: false }]
 			setTomorrowTodos(updatedTmrwTodos)
 
-			postTodo(dateTomorrow, text);
+			postTodo(dateTomorrow, text, clientID);
 
 		} else if (type === 'daily') {
 			//Add our new todo with our text
-			const updatedDailyTodos = [...dailyTodos, { id: crypto.randomUUID(), todoID: "master-3", name: text, completed: false }]
+			const updatedDailyTodos = [...dailyTodos, { id: clientID, todoID: "master-3", name: text, completed: false }]
 			setDailyTodos(updatedDailyTodos)
 		}
 
