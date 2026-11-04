@@ -58,19 +58,23 @@ function Dashboard() {
 			try {
 
 				console.log("fetching data....");
-				const [dailyData, todayData] = await Promise.all([
+				const [dailyData, todayData, tomorrowData] = await Promise.all([
 					fetch('http://127.0.0.1:8000/api/habits/getDailies/', { method: "GET", headers }),
-					fetch(`http://127.0.0.1:8000/api/habits/todoInstanceList/?date=${dateToday}`, { method: "GET", headers })
+					fetch(`http://127.0.0.1:8000/api/habits/todoInstanceList/?date=${dateToday}`, { method: "GET", headers }),
+					fetch(`http://127.0.0.1:8000/api/habits/todoInstanceList/?date=${dateTomorrow}`, { method: "GET", headers })
 				])
 
 				const rawDailies = await dailyData.json();
 				const rawTodays = await todayData.json();
+				const rawTomorrows = await tomorrowData.json();
 
 				const dailies = dataToArray(rawDailies);
 				const todays = dataToArray(rawTodays);
+				const tomorrows = dataToArray(rawTomorrows);
 
 				setCurTodos(todays);
 				setDailyTodos(dailies);
+				setTomorrowTodos(tomorrows);
 
 
 			} catch (error) {
@@ -196,6 +200,8 @@ function Dashboard() {
 				)
 			);
 		} else if (type === 'tomorrow') {
+
+			patchToggleTodo(id);
 
 			setTomorrowTodos(prevTodos =>
 				prevTodos.map(todo =>

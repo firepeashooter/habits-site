@@ -35,3 +35,9 @@ Monday November 2nd 2026
 We can now toggle daily todos and tomorrow todos, and they post the toggle to the backend.
 
 We still need to do tomorrow todos, and figure out a way we can pull all of this reused code into something like the dashboard page, or just a better way to export the lists to the different components once we fetch them. I want master backend function to live in one place on a parent component.
+
+Tuesday November 3rd 2026
+
+We moved all the fetching and posting/patching functions to the parent "Dashboard" page component and we are passing the nessesary data down through callbacks, just to clean everything up and keep state at the top.
+
+There is a bug where when we create a todo from the frontend, and try to toggle it, it fails becuase the id is different. Idk if this is becaues it's getting a different id when it's being created but we should create it in the backend first and then pull it in. Or something.
