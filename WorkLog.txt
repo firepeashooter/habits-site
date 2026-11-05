@@ -52,6 +52,8 @@ Wednesday November 4th
 
 We fixed a bug where when the todos come from the backend complete, it didn't reflect this on the front end. This was fixed by fixing a simple naming discrepency (is_complete vs compelete) on the front end. 
 
+Also added a function to remove a todo from the front end only. This will be for if posting to the backend fails, we can easily remove it from the front end quickly. We rae going to do the design pattern of optimistic posts, where we assume it works on the front end for quick response, but if it comes back as a fail we remove it.
+
 
 
 
