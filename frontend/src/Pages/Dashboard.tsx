@@ -153,7 +153,32 @@ function Dashboard() {
 
 	}
 
-	async function patchToggleTodo(id) {
+	function removeTodoList(id: UUID, type: String) {
+
+		if (type === 'current') {
+			setCurTodos(prevTodos =>
+				prevTodos.filter(todo => todo.id !== id)
+			);
+
+		} else if (type === 'daily') {
+
+			setDailyTodos(prevTodos =>
+				prevTodos.filter(todo => todo.id !== id)
+			);
+
+		} else if (type === 'tomorrow') {
+
+			setTomorrowTodos(prevTodos =>
+				prevTodos.filter(todo => todo.id !== id)
+			);
+
+		}
+
+	}
+
+
+
+	async function patchToggleTodo(id: UUID) {
 		const token = localStorage.getItem("accessToken");
 
 		const headers = {
@@ -172,6 +197,8 @@ function Dashboard() {
 
 			if (!response.ok) {
 				throw new Error("Failed to Toggle");
+
+				//TODO: Could we just call toggle todo again?
 			}
 
 			const data = await response.json()
@@ -179,6 +206,8 @@ function Dashboard() {
 
 		} catch (error) {
 			console.log(error);
+
+			//TODO: Could we just call toggle todo again?
 		}
 
 	}
@@ -194,6 +223,7 @@ function Dashboard() {
 					todo.id === id ? { ...todo, completed: !todo.completed } : todo // if the id is the one we just clicked, update it
 				)
 			);
+
 		} else if (type === 'daily') {
 
 			patchToggleTodo(id)
