@@ -46,3 +46,14 @@ There is a bug where when we create a todo from the frontend, and try to toggle 
 So there are two ways to fix this, one way is having a temporary id in the front end, and then after the post, since we get back the backend id, we hot swap it out.
 
 The other, and the one we went with, which is easier is just to send the temp id to the backend when we create it. 
+
+
+Wednesday November 4th
+
+We fixed a bug where when the todos come from the backend complete, it didn't reflect this on the front end. This was fixed by fixing a simple naming discrepency (is_complete vs compelete) on the front end. 
+
+
+
+
+
+

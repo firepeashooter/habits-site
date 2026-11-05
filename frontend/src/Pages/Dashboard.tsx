@@ -40,7 +40,7 @@ function Dashboard() {
 			{
 				id: todo.id,
 				name: todo.name,
-				is_complete: todo.is_completed
+				completed: todo.is_completed
 			})
 		)
 		return simplifiedData
@@ -222,7 +222,6 @@ function Dashboard() {
 		if (activeTab === "todos") return "-translate-x-1/2";   // Slide left to show page 2
 		return "translate-x-0";
 	};
-
 
 	return (
 		<>
