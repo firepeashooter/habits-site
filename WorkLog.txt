@@ -55,6 +55,11 @@ We fixed a bug where when the todos come from the backend complete, it didn't re
 Also added a function to remove a todo from the front end only. This will be for if posting to the backend fails, we can easily remove it from the front end quickly. We rae going to do the design pattern of optimistic posts, where we assume it works on the front end for quick response, but if it comes back as a fail we remove it.
 
 
+Thursday November 5th
+
+Created a whole new History Section with a date carousel that allows buttons to change the date. This will be used to view historical todo data. We also restructured a lot of the folder structure. 
+
+
 
 
 
