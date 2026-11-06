@@ -248,8 +248,9 @@ function Dashboard() {
 
 	// Helper function to translate the activeTab string into a CSS percentage shift
 	const getTranslateX = () => {
-		if (activeTab === "home") return "translate-x-0";       // Show page 1
-		if (activeTab === "todos") return "-translate-x-1/2";   // Slide left to show page 2
+		if (activeTab === "home") return "-translate-x-1/3";       // Show page 1
+		if (activeTab === "todos") return "-translate-x-2/3";   // Slide left to show page 2
+		if (activeTab === "history") return "-translate-x-0"; // Not sure why -2/3 but ok
 		return "translate-x-0";
 	};
 
@@ -262,13 +263,16 @@ function Dashboard() {
 					<div className='w-full overflow-hidden'>
 
 						{/* 200% means it can hold 2 sections worth*/}
-						<div className={`flex w-[200%] transition-transform duration-300 ease-in-out ${getTranslateX()}`}>
+						<div className={`flex w-[300%] transition-transform duration-300 ease-in-out ${getTranslateX()}`}>
 
 							{/* w-1/2 tells it how much to take up*/}
-							<section className='w-1/2 shrink-0'>
+							<section className='w-1/3 shrink-0'>
 								<TodoSection dailyTodos={dailyTodos} curTodos={curTodos} addTodoList={addTodoList} toggleTodo={toggleTodo} />
 							</section>
-							<section className='w-1/2 shrink-0'>
+							<section className='w-1/3 shrink-0'>
+								<TodoSection dailyTodos={dailyTodos} curTodos={curTodos} addTodoList={addTodoList} toggleTodo={toggleTodo} />
+							</section>
+							<section className='w-1/3 shrink-0'>
 								<PlanningSection tomorrowTodos={tomorrowTodos} addTodoList={addTodoList} toggleTodo={toggleTodo} />
 							</section>
 						</div>
