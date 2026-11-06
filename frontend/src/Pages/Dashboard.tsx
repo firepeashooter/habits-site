@@ -1,10 +1,10 @@
 import Header from '../Components/DashboardComps/Header.tsx'
-import TodoSection from '../Components/DashboardComps/TodoSection'
+import TodoSection from '../Components/DashboardComps/TodaySection/TodoSection'
 import MobileNavBar from '../Components/DashboardComps/MobileNavBar.tsx'
 import { useState, useEffect } from 'react'
-import PlanningSection from '../Components/DashboardComps/Planningsection.tsx'
+import PlanningSection from '../Components/DashboardComps/PlanningSection/Planningsection.tsx'
 import type { UUID } from 'node:crypto'
-import HistorySection from '../Components/DashboardComps/HistorySection.tsx'
+import HistorySection from '../Components/DashboardComps/HistorySection/HistorySection.tsx'
 
 
 function Dashboard() {

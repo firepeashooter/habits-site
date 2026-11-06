@@ -1,4 +1,5 @@
-import TodoCard from "./TodoCard";
+import TodoCard from "../TodaySection/TodoCard";
+import DateCarousel from "./DateCarousel";
 
 function HistorySection() {
 
@@ -10,6 +11,8 @@ function HistorySection() {
 
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">History Section</h1>
+
+			<DateCarousel />
 
 			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} editable={false} type="daily" />
 			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={false} type="current" />

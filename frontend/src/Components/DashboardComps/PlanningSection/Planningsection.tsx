@@ -1,5 +1,5 @@
-import type { TodoItemType } from "./TodoSection"
-import TodoCard from "./TodoCard"
+import type { TodoItemType } from "../TodaySection/TodoSection";
+import TodoCard from "../TodaySection/TodoCard";
 
 
 export interface PlanningSectionProps {
