@@ -4,6 +4,7 @@ import MobileNavBar from '../Components/DashboardComps/MobileNavBar.tsx'
 import { useState, useEffect } from 'react'
 import PlanningSection from '../Components/DashboardComps/Planningsection.tsx'
 import type { UUID } from 'node:crypto'
+import HistorySection from '../Components/DashboardComps/HistorySection.tsx'
 
 
 function Dashboard() {
@@ -267,7 +268,7 @@ function Dashboard() {
 
 							{/* w-1/2 tells it how much to take up*/}
 							<section className='w-1/3 shrink-0'>
-								<TodoSection dailyTodos={dailyTodos} curTodos={curTodos} addTodoList={addTodoList} toggleTodo={toggleTodo} />
+								<HistorySection />
 							</section>
 							<section className='w-1/3 shrink-0'>
 								<TodoSection dailyTodos={dailyTodos} curTodos={curTodos} addTodoList={addTodoList} toggleTodo={toggleTodo} />

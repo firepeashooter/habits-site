@@ -14,8 +14,8 @@ export interface TodoCardType {
 	curTodos: TodoItemType[];
 	editable?: boolean;
 	type: string;
-	addTodo: (text: string, type: string) => void;
-	toggleTodo: (id: string, type: string) => void;
+	addTodo?: (text: string, type: string) => void;
+	toggleTodo?: (id: string, type: string) => void;
 }
 
 export interface TodoSectionProps {
