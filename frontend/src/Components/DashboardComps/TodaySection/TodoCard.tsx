@@ -9,7 +9,7 @@ interface TodoCardProps {
 	subheader?: string;
 	type: string;
 	curTodos: TodoItemType[];
-	editable?: boolean;
+	editable: boolean;
 	addTodo: (text: string, type: string) => void;
 	toggleTodo: (id: string, type: string) => void;
 }
@@ -44,6 +44,7 @@ function TodoCard({ header, subheader, curTodos = [], type, editable = false, ad
 							type={type}
 							completed={todo.completed}
 							onToggle={() => toggleTodo(todo.id, type)}
+							editible={editable}
 
 
 						/>

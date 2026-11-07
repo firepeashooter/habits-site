@@ -1,15 +1,17 @@
 interface CheckboxProps {
 	checked: boolean;
+	editible: boolean;
 	onChange: () => void;
 }
 
-export default function Checkbox({ checked, onChange }: CheckboxProps) {
+export default function Checkbox({ checked, onChange, editible }: CheckboxProps) {
 	return (
 		<div className="relative w-6 h-6 flex items-center justify-center cursor-pointer flex-shrink-0">
 			<input
 				type="checkbox"
 				checked={checked}
 				onChange={onChange}
+				disabled={!editible}
 				className="sr-only peer"
 			/>
 
