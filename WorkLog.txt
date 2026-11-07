@@ -60,6 +60,9 @@ Thursday November 5th
 Created a whole new History Section with a date carousel that allows buttons to change the date. This will be used to view historical todo data. We also restructured a lot of the folder structure. 
 
 
+Friday November 6th 
+
+Made it so my protected views now ping the backend and validate tokens. This means if we are on the dashboard and refresh, or if we refresh anywehre, and our access token is expired, or not there, it will kick us back to the sign in page.
 
 
 
