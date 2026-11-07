@@ -65,5 +65,12 @@ Friday November 6th
 Made it so my protected views now ping the backend and validate tokens. This means if we are on the dashboard and refresh, or if we refresh anywehre, and our access token is expired, or not there, it will kick us back to the sign in page.
 
 
+Saturday November 7th
+
+Create an input field for dates, and made it so that when we input a date it pulls the todos from the backend. This is a placeholder for now.
+
+I also made the "editible" prop mandatory because now when we make todos not editable, they become read only.
+
+
 
 
