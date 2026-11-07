@@ -1,16 +1,73 @@
+import { useState } from "react";
 import TodoCard from "../TodaySection/TodoCard";
 import DateCarousel from "./DateCarousel";
 
+//Helper function to map backend json to frontend array
+function dataToArray(data) {
+
+	const simplifiedData = data.map((todo) => (
+		{
+			id: todo.id,
+			name: todo.name,
+			completed: todo.is_completed
+		})
+	)
+	return simplifiedData
+}
+
 function HistorySection() {
 
-	const dailyTodos = [];
-	const curTodos = [];
+	const [curTodos, setCurTodos] = useState([]);
+	const [dailyTodos, setDailyTodos] = useState([]);
 
+
+	async function fetchAllTodoLists(date: String) {
+
+		const token = localStorage.getItem("accessToken");
+		const headers = {
+			"Content-Type": "application/json",
+			"Authorization": `Bearer ${token}`
+		}
+
+		//TODO: The dailies need to be reworked somehow
+		try {
+
+			console.log("fetching data....");
+			const [dailyData, todayData] = await Promise.all([
+				fetch('http://127.0.0.1:8000/api/habits/getDailies/', { method: "GET", headers }),
+				fetch(`http://127.0.0.1:8000/api/habits/todoInstanceList/?date=${date}`, { method: "GET", headers }),
+			])
+
+			const rawDailies = await dailyData.json();
+			const rawTodays = await todayData.json();
+
+			const dailies = dataToArray(rawDailies);
+			const todays = dataToArray(rawTodays);
+
+			setCurTodos(todays);
+			setDailyTodos(dailies);
+
+
+		} catch (error) {
+			console.log(error)
+
+		}
+	}
 
 	return (
 
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">History Section</h1>
+
+			<input type="date" className="flex justify-between items-center border border-slate-400 bg-slate-500 rounded-lg p-3"
+				onChange={
+					(e) => {
+						const dateSelected = e.target.value;
+						console.log("date selected: " + dateSelected);
+						fetchAllTodoLists(dateSelected)
+					}
+				}
+			></input>
 
 			<DateCarousel />
 
