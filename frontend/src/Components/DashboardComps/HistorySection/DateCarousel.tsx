@@ -5,6 +5,7 @@ export interface DateCarouselProps {
 	fetchAllTodoLists: (date: String) => Promise<void>;
 }
 
+//TODO: BUG WHERE WHEN SWITCHING BUTTONS IT STILL ACTIVATES THE OLD ONE
 function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 
 	const today = new Date();
@@ -23,7 +24,10 @@ function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 			newDate.setDate(newDate.getDate() - 1);
 		}
 
+
 		setCurDate(newDate);
+		console.log(formattedDate);
+		fetchAllTodoLists(formattedDate);
 
 	}
 

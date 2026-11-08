@@ -14,7 +14,9 @@ function DateButton({ date, fetchAllTodoLists }: DateButtonProps) {
 		>
 			{date}
 
-			<input type="date" className="sr-only"
+			<input
+				type="date"
+				className="sr-only"
 				onChange={
 					(e) => {
 						const dateSelected = e.target.value;
