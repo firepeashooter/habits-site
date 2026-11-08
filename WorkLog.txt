@@ -71,6 +71,10 @@ Create an input field for dates, and made it so that when we input a date it pul
 
 I also made the "editible" prop mandatory because now when we make todos not editable, they become read only.
 
+I now have an invisible input inside a date button that displays the date when the carousel buttons are going. This is hooked up to th ebackend to GET todos with the given date but there is a bug right now where to buttons arne't sending the propper date sometimes. 
+
+We also still need to hook up the calendar shwoing up to the button.
+
 
 
 
