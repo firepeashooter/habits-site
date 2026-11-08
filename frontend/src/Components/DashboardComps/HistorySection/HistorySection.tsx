@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TodoCard from "../TodaySection/TodoCard";
 import DateCarousel from "./DateCarousel";
+import DateButton from "./DateButton";
 
 //Helper function to map backend json to frontend array
 function dataToArray(data) {
@@ -59,17 +60,7 @@ function HistorySection() {
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">History Section</h1>
 
-			<input type="date" className="flex justify-between items-center border border-slate-400 bg-slate-500 rounded-lg p-3"
-				onChange={
-					(e) => {
-						const dateSelected = e.target.value;
-						console.log("date selected: " + dateSelected);
-						fetchAllTodoLists(dateSelected)
-					}
-				}
-			></input>
-
-			<DateCarousel />
+			<DateCarousel fetchAllTodoLists={fetchAllTodoLists} />
 
 			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} editable={false} type="daily" />
 			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={false} type="current" />

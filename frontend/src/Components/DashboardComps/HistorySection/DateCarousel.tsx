@@ -1,6 +1,11 @@
 import { useState } from "react";
+import DateButton from "./DateButton";
 
-function DateCarousel() {
+export interface DateCarouselProps {
+	fetchAllTodoLists: (date: String) => Promise<void>;
+}
+
+function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 
 	const today = new Date();
 
@@ -15,7 +20,6 @@ function DateCarousel() {
 			newDate.setDate(newDate.getDate() + 1);
 		}
 		else {
-
 			newDate.setDate(newDate.getDate() - 1);
 		}
 
@@ -23,12 +27,10 @@ function DateCarousel() {
 
 	}
 
-
-
 	return (
-		<div className="flex w-full justify-around">
+		<div className="flex items-center w-full justify-around">
 			<button onClick={() => changeDate("back")} className="w-7 h-7 bg-amber-600"> L </button>
-			<h1>{formattedDate}</h1>
+			<DateButton date={formattedDate} fetchAllTodoLists={fetchAllTodoLists} />
 			<button onClick={() => changeDate("forward")} className="w-7 h-7 bg-amber-600"> R </button>
 
 
