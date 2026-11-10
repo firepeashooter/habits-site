@@ -13,6 +13,7 @@ function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 	const [curDate, setCurDate] = useState(today);
 	const formattedDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
 
+
 	function changeDate(direction: String) {
 
 		const newDate = new Date(curDate);
@@ -34,7 +35,7 @@ function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 	return (
 		<div className="flex items-center w-full justify-around">
 			<button onClick={() => changeDate("back")} className="w-7 h-7 bg-amber-600"> L </button>
-			<DateButton date={formattedDate} fetchAllTodoLists={fetchAllTodoLists} />
+			<DateButton date={formattedDate} fetchAllTodoLists={fetchAllTodoLists} setCurDate={setCurDate} />
 			<button onClick={() => changeDate("forward")} className="w-7 h-7 bg-amber-600"> R </button>
 
 
