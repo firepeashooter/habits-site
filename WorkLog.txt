@@ -76,6 +76,14 @@ I now have an invisible input inside a date button that displays the date when t
 We also still need to hook up the calendar shwoing up to the button.
 
 
+Monday November 9th 2026
+
+The bug where the left and right date butotns don't work, and the calendar button showing the date off by one is still there. HOWEVER:
+
+we hooked up the picker to the date button so now we can pick a date by clicking the button and it will bring us straight to that date. And then the left and right butotns still work from that date.
+
+FIXED THE BUG WITH L AND R BUTTONS it was as simple as manually updating the date string because react rerenders after the function finishes.
+
 
 
 

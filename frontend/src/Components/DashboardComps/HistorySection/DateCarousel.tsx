@@ -5,7 +5,6 @@ export interface DateCarouselProps {
 	fetchAllTodoLists: (date: String) => Promise<void>;
 }
 
-//TODO: BUG WHERE WHEN SWITCHING BUTTONS IT STILL ACTIVATES THE OLD ONE
 function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 
 	const today = new Date();
@@ -13,10 +12,11 @@ function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 	const [curDate, setCurDate] = useState(today);
 	const formattedDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
 
-
 	function changeDate(direction: String) {
 
 		const newDate = new Date(curDate);
+
+		console.log("current date = " + formattedDate);
 
 		if (direction === "forward") {
 			newDate.setDate(newDate.getDate() + 1);
@@ -24,11 +24,15 @@ function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 		else {
 			newDate.setDate(newDate.getDate() - 1);
 		}
-
+		//Format the new date string locally right here
+		const year = newDate.getFullYear();
+		const month = String(newDate.getMonth() + 1).padStart(2, '0');
+		const day = String(newDate.getDate()).padStart(2, '0');
+		const newFormattedDate = `${year}-${month}-${day}`;
 
 		setCurDate(newDate);
-		console.log(formattedDate);
-		fetchAllTodoLists(formattedDate);
+		console.log("new date is " + newFormattedDate);
+		fetchAllTodoLists(newFormattedDate);
 
 	}
 
