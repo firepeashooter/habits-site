@@ -18,7 +18,20 @@ class DailyInstanceView(APIView):
     def get(self, request):
 
         current_user = self.request.user
-        target_date = date.today()
+
+        date_param = self.request.query_params.get('date', None)
+        #Parse the date or default to today's date
+        if date_param:
+            try:
+                #Cleans the date string coming in
+                clean_date = str(date_param).strip()
+                # Converts the "YYYY-MM-DD" string into a Python date object
+                target_date = date.fromisoformat(clean_date)
+            except ValueError:
+                # If the frontend passes a bad date string, fallback safely to today
+                target_date = date.today()
+        else:
+            target_date = date.today()
 
         instances = TaskInstance.objects.filter(
             user=current_user,
