@@ -42,7 +42,7 @@ function HistorySection() {
 
 			console.log("fetching data....");
 			const [dailyData, todayData] = await Promise.all([
-				fetch('http://127.0.0.1:8000/api/habits/getDailies/', { method: "GET", headers }),
+				fetch(`http://127.0.0.1:8000/api/habits/getDailies/?date=${date}`, { method: "GET", headers }),
 				fetch(`http://127.0.0.1:8000/api/habits/todoInstanceList/?date=${date}`, { method: "GET", headers }),
 			])
 
