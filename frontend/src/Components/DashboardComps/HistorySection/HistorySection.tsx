@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoCard from "../TodaySection/TodoCard";
 import DateCarousel from "./DateCarousel";
 import DateButton from "./DateButton";
@@ -21,6 +21,13 @@ function HistorySection() {
 	const [curTodos, setCurTodos] = useState([]);
 	const [dailyTodos, setDailyTodos] = useState([]);
 
+	const yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1)
+	const yesterdayString = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+
+
+	//For the initial fetch 
+	useEffect(() => { fetchAllTodoLists(yesterdayString) }, []);
 
 	async function fetchAllTodoLists(date: String) {
 
