@@ -7,9 +7,11 @@ export interface DateCarouselProps {
 
 function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 
-	const today = new Date();
+	const yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1)
 
-	const [curDate, setCurDate] = useState(today);
+
+	const [curDate, setCurDate] = useState(yesterday);
 	const formattedDate = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
 
 	function changeDate(direction: String) {
@@ -19,20 +21,34 @@ function DateCarousel({ fetchAllTodoLists }: DateCarouselProps) {
 		console.log("current date = " + formattedDate);
 
 		if (direction === "forward") {
+
+			//Makes sure the buttons don't go past yesterday
 			newDate.setDate(newDate.getDate() + 1);
+
 		}
 		else {
 			newDate.setDate(newDate.getDate() - 1);
 		}
-		//Format the new date string locally right here
-		const year = newDate.getFullYear();
-		const month = String(newDate.getMonth() + 1).padStart(2, '0');
-		const day = String(newDate.getDate()).padStart(2, '0');
-		const newFormattedDate = `${year}-${month}-${day}`;
 
-		setCurDate(newDate);
-		console.log("new date is " + newFormattedDate);
-		fetchAllTodoLists(newFormattedDate);
+		if (newDate <= yesterday) {
+
+			//Format the new date string locally right here and increase it
+			const year = newDate.getFullYear();
+			const month = String(newDate.getMonth() + 1).padStart(2, '0');
+			const day = String(newDate.getDate()).padStart(2, '0');
+			const newFormattedDate = `${year}-${month}-${day}`;
+			setCurDate(newDate);
+			console.log("new date is " + newFormattedDate);
+			fetchAllTodoLists(newFormattedDate);
+
+		} else {
+			console.log("Day is in the future");
+			console.log("Keeping Date the Same");
+			console.log("new date is " + formattedDate)
+
+		}
+
+
 
 	}
 
