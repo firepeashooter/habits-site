@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import Raypfp from '../../assets/thumb-1920-376165.png'
 
-function Header() {
+export interface HeaderProps {
+	setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	menuOpen: boolean;
+}
+
+function Header({ setMenuOpen, menuOpen }: HeaderProps) {
 
 	return (
 
@@ -10,13 +16,9 @@ function Header() {
 				{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}
 			</h1>
 
-			<div className='w-13 h-13 rounded-full overflow-hidden bg-amber-700'>
+			<button type="button" onClick={() => { setMenuOpen(!menuOpen) }} className='w-13 h-13 rounded-full overflow-hidden bg-amber-700'>
 				<img className='w-full h-full object-cover' src={Raypfp} alt="Profile picture image" />
-			</div>
-
-
-
-
+			</button>
 		</nav>
 
 	)

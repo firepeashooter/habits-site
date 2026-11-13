@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import PlanningSection from '../Components/DashboardComps/PlanningSection/Planningsection.tsx'
 import type { UUID } from 'node:crypto'
 import HistorySection from '../Components/DashboardComps/HistorySection/HistorySection.tsx'
+import UserMenu from '../Components/DashboardComps/UserMenu.tsx'
 
 
 function Dashboard() {
@@ -14,6 +15,7 @@ function Dashboard() {
 	const [tomorrowTodos, setTomorrowTodos] = useState([])
 
 	const [activeTab, setActiveTab] = useState("home")
+	const [menuOpen, setMenuOpen] = useState(false)
 
 	//TODO: This formatting shoudl be done in the big fetch function
 	const [dateToday, setdateToday] = useState(() => {
@@ -256,11 +258,13 @@ function Dashboard() {
 	};
 
 	return (
+
 		<>
 			<div className='bg-slate-900 text-slate-100 min-h-screen w-full'>
 
 				<main className='w-full px-4 pt-4 pb-24'>
-					<Header />
+					<Header setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
+					{menuOpen && <UserMenu />}
 					<div className='w-full overflow-hidden'>
 
 						{/* 200% means it can hold 2 sections worth*/}
