@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import PlanningSection from '../Components/DashboardComps/PlanningSection/Planningsection.tsx'
 import type { UUID } from 'node:crypto'
 import HistorySection from '../Components/DashboardComps/HistorySection/HistorySection.tsx'
-import UserMenu from '../Components/DashboardComps/UserMenu.tsx'
+import UserMenu from '../Components/DashboardComps/UserMenu/UserMenu.tsx'
 
 
 function Dashboard() {
@@ -264,7 +264,9 @@ function Dashboard() {
 
 				<main className='w-full px-4 pt-4 pb-24'>
 					<Header setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
-					{menuOpen && <UserMenu />}
+					<div className='relative w-full'>
+						{menuOpen && <UserMenu />}
+					</div>
 					<div className='w-full overflow-hidden'>
 
 						{/* 200% means it can hold 2 sections worth*/}
