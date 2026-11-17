@@ -2,6 +2,7 @@ import Todo from "./Todo"
 import ProgressWheel from "./ProgressWheel";
 import AddTodoButton from "./AddTodoButton";
 import type { TodoItemType } from "./TodoSection";
+import { useState } from "react";
 
 
 interface TodoCardProps {
@@ -45,10 +46,7 @@ function TodoCard({ header, subheader, curTodos = [], type, editable = false, ad
 							completed={todo.completed}
 							onToggle={() => toggleTodo(todo.id, type)}
 							editible={editable}
-
-
 						/>
-
 					)
 				}
 
@@ -56,13 +54,7 @@ function TodoCard({ header, subheader, curTodos = [], type, editable = false, ad
 
 			</div>
 
-
-
-
 		</div>
-
-
-
 
 	)
 }

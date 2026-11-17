@@ -12,6 +12,7 @@ export default function ProgressWheel({ completedCount, totalCount }: ProgressCi
 	const circumference = 2 * Math.PI * radius; // Around 100.53
 	const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
+
 	return (
 		<div className="relative flex items-center justify-center w-15 h-15">
 			<svg className="w-full h-full transform -rotate-90" viewBox="0 0 40 40">

@@ -38,7 +38,7 @@ function TodoSection({ curTodos, dailyTodos, addTodoList, toggleTodo }: TodoSect
 		<div className="flex flex-col items-center gap-5 pb-10">
 			<h1 className="font-sans font-bold text-3xl p-4">Good Morning {username}</h1>
 
-			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} editable={false} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" />
+			<TodoCard header="Dailies" subheader="Refreshes Everyday" curTodos={dailyTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="daily" />
 			<TodoCard header="Todo" subheader="What are you doing today" curTodos={curTodos} editable={true} addTodo={addTodoList} toggleTodo={toggleTodo} type="current" />
 
 		</div>
