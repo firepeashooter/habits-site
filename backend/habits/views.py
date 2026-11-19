@@ -91,6 +91,24 @@ class CreateInstance(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CreateDailies(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        number_of_days = request.data["number_of_days"]
+        todos = request.data["todos"]
+
+        print(number_of_days)
+        print(todos)
+
+        for i in range(len(todos)):
+            print(todos[i]["name"])
+
+        return Response(status=status.HTTP_200_OK)
+
+
 class ToggleInstanceComplete(APIView):
 
     permission_classes = [IsAuthenticated]
