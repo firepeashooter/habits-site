@@ -1,6 +1,7 @@
 from django.db.models import Value
 from django.shortcuts import get_object_or_404, render
-from datetime import date
+from datetime import date, timedelta
+from django.utils import crypto
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
@@ -9,6 +10,9 @@ from rest_framework.views import APIView
 from .models import TaskInstance
 from .serializers import TaskInstanceSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
+import uuid
+from datetime import date
+from django.utils import timezone
 # Create your views here.
 
 class DailyInstanceView(APIView):
@@ -90,21 +94,43 @@ class CreateInstance(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+#Creates an instance in the database callable from anywhere
+def create_instance(todo):
+    return
 
+
+#Starts at today, then creates the "number of days" number of daily instances for that task (i wonder how long this takes to run)
 class CreateDailies(APIView):
 
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
-        number_of_days = request.data["number_of_days"]
+        number_of_days = int(request.data["number_of_days"])
         todos = request.data["todos"]
+        cur_date = timezone.localdate()
 
-        print(number_of_days)
-        print(todos)
+        for i in range(number_of_days):
 
-        for i in range(len(todos)):
-            print(todos[i]["name"])
+            print("Day: " + str(i))
+            print()
+
+            for i in range(len(todos)):
+
+                #Add an id to each individual instance
+                id = str(uuid.uuid4())
+
+                todos[i]["id"] = id
+                todos[i]["date"] = str(cur_date)
+
+                print(todos[i])
+
+                #send it to CreateInstanceFunction
+                # create_instance(todo);
+
+            #update the date after each set
+            cur_date = cur_date + timedelta(days=1)
+            
 
         return Response(status=status.HTTP_200_OK)
 
